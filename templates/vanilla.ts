@@ -72,11 +72,9 @@ function postTemplateWithLazyDisqus({
   title: string;
   content: string;
 }) {
-  // TODO: Show disqus only after a "Show comments" button is pressed
   return baseTemplate({
     base,
     title,
-    // TODO: Set script src on click
     content: `${content}
     <div>
       <button onclick="document.getElementById('disqus_script').src = 'https://comments-benchmark.disqus.com/embed.js'">Show comments</button>
