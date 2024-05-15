@@ -1,0 +1,5 @@
+compatibility_date = "2023-01-12"
+kv_namespaces = [
+  { binding = "COMMENTS", id = "50185bf2092b42c0ba44c818d9f977e1", preview_id = "a21495ab74f949eb92bef60ef65e4093" },
+  { binding = "PAGE_CACHE", id = "5826cf92dfda47b59362c1e4e0f0ce29", preview_id = "29cf95e9c1f74b4398952e6be380c3c9" }
+]

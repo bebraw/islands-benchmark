@@ -1,0 +1,51 @@
+{
+  "name": "comments-benchmark",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "wrangler pages dev .",
+    "prebenchmark:all": "rm -rf ./benchmark-output",
+    "benchmark:all": "tsx ./benchmark-suites/all.ts",
+    "benchmark:scaling": "tsx ./benchmark-suites/scaling.ts",
+    "serve:benchmark": "serve -p 8788 ./benchmark-output",
+    "serve:static": "serve -p 8788 ./dist",
+    "autocannon": "node ./run-autocannon.js",
+    "autocannon:edge": "autocannon -d=30 https://ssg-benchmark.pages.dev/edge/posts/",
+    "autocannon:local:edge": "autocannon -d=30 http://127.0.0.1:8788/edge/posts/",
+    "playwright": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "breezewind": "^1.2.0",
+    "mkdirp": "^3.0.1",
+    "nanoid": "^5.0.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rmfr": "^2.0.0",
+    "wrangler": "^3.56.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240512.0",
+    "@playwright/test": "^1.44.0",
+    "@types/mkdirp": "^1.0.2",
+    "@types/node": "^20.12.12",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "@types/rmfr": "^2.0.5",
+    "autocannon": "^7.15.0",
+    "benny": "^3.7.1",
+    "glob": "^10.3.15",
+    "lighthouse": "^12.0.0",
+    "playwright": "^1.44.0",
+    "playwright-lighthouse": "^4.0.0",
+    "prettier": "^3.2.5",
+    "serve": "^14.2.3",
+    "tslib": "^2.6.2",
+    "tsx": "^4.10.2",
+    "typescript": "^5.4.5"
+  }
+}
