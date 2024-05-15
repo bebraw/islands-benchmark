@@ -1,4 +1,4 @@
-import { postTemplate } from "../../../templates/vanilla";
+import { postTemplateWithComments } from "../../../templates/vanilla";
 import type { Post } from "../../../types";
 
 export async function onRequest({
@@ -15,7 +15,7 @@ export async function onRequest({
   const foundPost = posts.find((p) => p.id === id);
 
   // Wait 100ms to simulate load
-  await new Promise((r) => setTimeout(r, 100));
+  // await new Promise((r) => setTimeout(r, 100));
 
   if (!foundPost) {
     return new Response(`{ "error": "No matching post was found" }`, {
@@ -37,7 +37,7 @@ export async function onRequest({
   */
 
   return new Response(
-    await postTemplate({
+    await postTemplateWithComments({
       ...foundPost,
       base: "/edge/posts/",
     }),
