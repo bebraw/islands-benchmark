@@ -18,7 +18,7 @@ function postIndexTemplate({
   });
 }
 
-async function postTemplateWithComments({
+function postTemplateWithComments({
   id,
   base,
   title,
