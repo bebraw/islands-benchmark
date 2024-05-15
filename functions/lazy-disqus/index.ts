@@ -1,16 +1,13 @@
-import { postIndexTemplate } from "../../../templates/vanilla";
-import type { Post } from "../../../types";
+import { postIndexTemplate } from "../../templates/vanilla.ts";
+import type { Post } from "../../types.ts";
 
 export async function onRequest({ request: { url } }: { request: Request }) {
   const res = await fetch(`${new URL(url).origin}/api/posts`);
-  const posts = await res.json<Post[]>();
-
-  // Wait 100ms to simulate load
-  await new Promise((r) => setTimeout(r, 100));
+  const posts: Post[] = await res.json();
 
   return new Response(
     await postIndexTemplate({
-      base: "/edge/posts/",
+      base: "/lazy-disqus/",
       title: "Posts",
       posts,
     }),

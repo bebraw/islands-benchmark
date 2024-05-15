@@ -1,5 +1,5 @@
-import { postTemplateWithComments } from "../../../templates/vanilla";
-import type { Post } from "../../../types";
+import { postTemplateWithComments } from "../../templates/vanilla.ts";
+import type { Post } from "../../types.ts";
 
 export async function onRequest({
   env,
@@ -11,11 +11,8 @@ export async function onRequest({
   request: Request;
 }) {
   const res = await fetch(`${new URL(url).origin}/api/posts`);
-  const posts = await res.json<Post[]>();
+  const posts: Post[] = await res.json();
   const foundPost = posts.find((p) => p.id === id);
-
-  // Wait 100ms to simulate load
-  // await new Promise((r) => setTimeout(r, 100));
 
   if (!foundPost) {
     return new Response(`{ "error": "No matching post was found" }`, {
@@ -24,22 +21,11 @@ export async function onRequest({
     });
   }
 
-  /*
-  let comments = [];
-
-  try {
-    const data = await env.COMMENTS.get(id);
-
-    if (data) {
-      comments = JSON.parse(data);
-    }
-  } catch (error) {}
-  */
-
   return new Response(
     await postTemplateWithComments({
       ...foundPost,
-      base: "/edge/posts/",
+      comments: [],
+      base: "/disqus/",
     }),
     {
       status: 200,
