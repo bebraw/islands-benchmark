@@ -4,4 +4,5 @@ dist
 /playwright-report/
 /playwright/.cache/
 /benchmark-output/
+.wrangler
 
