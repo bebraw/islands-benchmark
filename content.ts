@@ -4,7 +4,7 @@ function getPosts(n = 100) {
   return Array.from(Array(n).keys()).map((id) => ({
     id: id.toString(),
     title: loremIpsum(id, 4),
-    content: loremIpsum(id, 500),
+    content: loremIpsum(id, 2000),
   }));
 }
 

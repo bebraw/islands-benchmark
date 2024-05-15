@@ -65,9 +65,9 @@ function baseTemplate({
       <title>${title}</title>
     </head>
     <body>
-      <main>
+      <main style="margin: 0 auto 0 auto; max-width: 80ch;">
         <h1>${title}</h1>
-        <div>${content}</div>
+        <p>${content}</p>
       </main>
     </body>
   </html>`;
