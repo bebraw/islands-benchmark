@@ -76,9 +76,21 @@ function postTemplateWithLazyDisqus({
   return baseTemplate({
     base,
     title,
-    content: `${content}${disqusScript()}`,
+    // TODO: Set script src on click
+    content: `${content}
+    <div>
+      <button onclick="document.getElementById('disqus_script').src = 'https://comments-benchmark.disqus.com/embed.js'">Show comments</button>
+      ${lazyDisqusScript()}
+    </div>`,
   });
 }
+
+function lazyDisqusScript() {
+  return `<div id="disqus_thread"></div>
+  <script id="disqus_script"></script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>`;
+}
+
 function disqusScript() {
   return `<div id="disqus_thread"></div>
   <script>

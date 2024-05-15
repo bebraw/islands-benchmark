@@ -24,7 +24,6 @@ export async function onRequest({
   return new Response(
     postTemplateWithLazyDisqus({
       ...foundPost,
-      comments: [],
       base: "/lazy-disqus/",
     }),
     {
