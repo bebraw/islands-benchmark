@@ -63,6 +63,22 @@ function postTemplateWithDisqus({
   });
 }
 
+function postTemplateWithLazyDisqus({
+  base,
+  title,
+  content,
+}: {
+  base: string;
+  title: string;
+  content: string;
+}) {
+  // TODO: Show disqus only after a "Show comments" button is pressed
+  return baseTemplate({
+    base,
+    title,
+    content: `${content}${disqusScript()}`,
+  });
+}
 function disqusScript() {
   return `<div id="disqus_thread"></div>
   <script>
@@ -117,4 +133,5 @@ export {
   baseTemplate as postTemplate,
   postTemplateWithComments,
   postTemplateWithDisqus,
+  postTemplateWithLazyDisqus,
 };

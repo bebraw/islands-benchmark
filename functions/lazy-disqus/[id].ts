@@ -1,4 +1,4 @@
-import { postTemplateWithComments } from "../../templates/vanilla.ts";
+import { postTemplateWithLazyDisqus } from "../../templates/vanilla.ts";
 import type { Post } from "../../types.ts";
 
 export async function onRequest({
@@ -22,7 +22,7 @@ export async function onRequest({
   }
 
   return new Response(
-    postTemplateWithComments({
+    postTemplateWithLazyDisqus({
       ...foundPost,
       comments: [],
       base: "/lazy-disqus/",
