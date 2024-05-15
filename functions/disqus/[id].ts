@@ -1,4 +1,4 @@
-import { postTemplateWithComments } from "../../templates/vanilla.ts";
+import { postTemplateWithDisqus } from "../../templates/vanilla.ts";
 import type { Post } from "../../types.ts";
 
 export async function onRequest({
@@ -22,9 +22,8 @@ export async function onRequest({
   }
 
   return new Response(
-    await postTemplateWithComments({
+    postTemplateWithDisqus({
       ...foundPost,
-      comments: [],
       base: "/disqus/",
     }),
     {
@@ -32,6 +31,6 @@ export async function onRequest({
       headers: {
         "content-type": "text/html;charset=UTF-8",
       },
-    }
+    },
   );
 }

@@ -6,7 +6,7 @@ export async function onRequest({ request: { url } }: { request: Request }) {
   const posts: Post[] = await res.json();
 
   return new Response(
-    await postIndexTemplate({
+    postIndexTemplate({
       base: "/disqus/",
       title: "Posts",
       posts,
@@ -16,6 +16,6 @@ export async function onRequest({ request: { url } }: { request: Request }) {
       headers: {
         "content-type": "text/html;charset=UTF-8",
       },
-    }
+    },
   );
 }

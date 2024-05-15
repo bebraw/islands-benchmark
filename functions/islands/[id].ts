@@ -34,7 +34,7 @@ export async function onRequest({
   */
 
   return new Response(
-    await postTemplateWithComments({
+    postTemplateWithComments({
       ...foundPost,
       comments: [],
       base: "/islands/",
@@ -44,6 +44,6 @@ export async function onRequest({
       headers: {
         "content-type": "text/html;charset=UTF-8",
       },
-    }
+    },
   );
 }
