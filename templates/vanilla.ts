@@ -36,7 +36,7 @@ function postTemplateWithComments({
     title,
     content: `${content}<div>
     <h2>Comments</h2>
-    <ul>${comments.map(({ content }) => `<li><div>${content}</div></li>`)}</ul>
+    <ul>${comments.map(({ content }) => `<li><div>${content}</div></li>`).join("")}</ul>
     <form action="/api/comment" method="post">
       <label for="new-comment">Leave a comment</label>
       <input type="hidden" name="id" value="${id}" />
