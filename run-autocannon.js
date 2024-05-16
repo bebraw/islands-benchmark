@@ -1,15 +1,13 @@
 const autocannon = require("autocannon");
 
-const targets = [
-  "https://ssg-benchmark.pages.dev/edge/posts/",
-  "https://ssg-benchmark.pages.dev/edge-with-isr/posts/",
-  "https://ssg-benchmark.pages.dev/vanilla/posts/",
-  "https://ssg-benchmark.netlify.app/vanilla/posts/",
-];
+const URL_ROOT = "https://comments-benchmark.pages.dev";
+const variants = ["vanilla", "disqus", "lazy-disqus", "islands"];
+
+const targets = variants.map((variant) => `${URL_ROOT}/${variant}/10`);
 
 async function main(targets, duration) {
   const results = await Promise.all(
-    targets.map((url) => autocannon({ url, duration }))
+    targets.map((url) => autocannon({ url, duration })),
   );
 
   function pickRow(key) {
