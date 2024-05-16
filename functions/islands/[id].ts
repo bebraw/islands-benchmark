@@ -21,22 +21,9 @@ export async function onRequest({
     });
   }
 
-  /*
-  let comments = [];
-
-  try {
-    const data = await env.COMMENTS.get(id);
-
-    if (data) {
-      comments = JSON.parse(data);
-    }
-  } catch (error) {}
-  */
-
   return new Response(
     postTemplateWithCommentsIsland({
       ...foundPost,
-      comments: [],
       base: "/islands/",
     }),
     {

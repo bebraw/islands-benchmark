@@ -34,16 +34,7 @@ function postTemplateWithComments({
   return baseTemplate({
     base,
     title,
-    content: `${content}<div>
-    <h2>Comments</h2>
-    <ul>${comments.map(({ content }) => `<li><div>${content}</div></li>`).join("")}</ul>
-    <form action="/api/comment" method="post">
-      <label for="new-comment">Leave a comment</label>
-      <input type="hidden" name="id" value="${id}" />
-      <textarea id="new-comment" name="comment" rows="4" cols="40"></textarea>
-      <button type="submit">Send a comment</button>
-    </form>
-  </div>`,
+    content: `${content}${commentsSection({ id, comments })}`,
   });
 }
 
@@ -52,13 +43,11 @@ function postTemplateWithCommentsIsland({
   base,
   title,
   content,
-  comments = [],
 }: {
   id: Post["id"];
   base: string;
   title: string;
   content: string;
-  comments: Comment[];
 }) {
   // TODO: Trigger loading the island content here instead of removing hidden
   return baseTemplate({
@@ -66,18 +55,27 @@ function postTemplateWithCommentsIsland({
     title,
     content: `${content}<div>
     <button onclick="document.getElementById('comments').removeAttribute('hidden')">Show comments</button>
-    <div hidden id="comments">
-      <h2>Comments</h2>
-      <ul>${comments.map(({ content }) => `<li><div>${content}</div></li>`).join("")}</ul>
-      <form action="/api/comment" method="post">
-        <label for="new-comment">Leave a comment</label>
-        <input type="hidden" name="id" value="${id}" />
-        <textarea id="new-comment" name="comment" rows="4" cols="40"></textarea>
-        <button type="submit">Send a comment</button>
-      </form>
-    </div>
   </div>`,
   });
+}
+
+function commentsSection({
+  comments,
+  id,
+}: {
+  comments: Comment[];
+  id: Post["id"];
+}) {
+  return `<section>
+    <h2>Comments</h2>
+    <ul>${comments.map(({ content }) => `<li><div>${content}</div></li>`).join("")}</ul>
+    <form action="/api/comment" method="post">
+      <label for="new-comment">Leave a comment</label>
+      <input type="hidden" name="id" value="${id}" />
+      <textarea id="new-comment" name="comment" rows="4" cols="40"></textarea>
+      <button type="submit">Send a comment</button>
+    </form>
+  </section>`;
 }
 
 function postTemplateWithDisqus({
@@ -172,6 +170,7 @@ function baseTemplate({
 
 export {
   baseTemplate,
+  commentsSection,
   postIndexTemplate,
   baseTemplate as postTemplate,
   postTemplateWithComments,
