@@ -21,29 +21,20 @@ function printCSV() {
   ];
 
   auditTypes.forEach((auditType) => {
-    const edgeIndexFCPs = readAudits("cf-edge-index-", auditType);
-    const edgePageFCPs = readAudits("cf-edge-page-", auditType);
-    const edgeWithIsrIndexFCPs = readAudits(
-      "cf-edge-with-isr-index-",
-      auditType
-    );
-    const edgeWithIsrPageFCPs = readAudits("cf-edge-with-isr-page-", auditType);
-    const vanillaIndexFCPs = readAudits("cf-vanilla-index-", auditType);
-    const vanillaPageFCPs = readAudits("cf-vanilla-page-", auditType);
-    const netlifyIndexFCPs = readAudits("netlify-vanilla-index-", auditType);
-    const netlifyPageFCPs = readAudits("netlify-vanilla-page-", auditType);
+    const cfVanillaFCPs = readAudits("cf-vanilla-", auditType);
+    const cfDisqusFCPs = readAudits("cf-disqus-", auditType);
+    const cfLazyDisqusFCPs = readAudits("cf-lazy-disqus-", auditType);
+    const cfIslandsFCPs = readAudits("cf-islands-", auditType);
 
     function pickRow(i) {
-      return `${i + 1},${edgeIndexFCPs[i]},${edgePageFCPs[i]},${
-        edgeWithIsrIndexFCPs[i]
-      },${edgeWithIsrPageFCPs[i]},${vanillaIndexFCPs[i]},${
-        vanillaPageFCPs[i]
-      },${netlifyIndexFCPs[i]},${netlifyPageFCPs[i]}`;
+      return `${i + 1},${cfVanillaFCPs[i]},${cfDisqusFCPs[i]},${
+        cfLazyDisqusFCPs[i]
+      },${cfIslandsFCPs[i]}`;
     }
 
     console.log(`\nAudit type: ${auditType}`);
     // This output should go to main.tex
-    console.log(`a,b,c,d,e,f,g,h,i
+    console.log(`a,b,c,d,e
 ${range(5)
   .map((i) => pickRow(i))
   .join("\n")}`);
@@ -60,99 +51,61 @@ function printTable() {
     "server-response-time",
   ];
   const calculatedRows = {
-    ssrIndex: {},
-    ssrPost: {},
-    isrIndex: {},
-    isrPost: {},
-    ssgIndex: {},
-    ssgPost: {},
-    netlifySsgIndex: {},
-    netlifySsgPost: {},
+    cfVanilla: {},
+    cfDisqus: {},
+    cfLazyDisqus: {},
+    cfIslands: {},
   };
 
   auditTypes.forEach((auditType) => {
-    const edgeIndexValues = readAudits("cf-edge-index-", auditType);
-    const edgePageValues = readAudits("cf-edge-page-", auditType);
-    const edgeWithIsrIndexValues = readAudits(
-      "cf-edge-with-isr-index-",
-      auditType
-    );
-    const edgeWithIsrPageValues = readAudits(
-      "cf-edge-with-isr-page-",
-      auditType
-    );
-    const ssgIndexValues = readAudits("cf-vanilla-index-", auditType);
-    const ssgPageValues = readAudits("cf-vanilla-page-", auditType);
-    const netlifyIndexValues = readAudits("netlify-vanilla-index-", auditType);
-    const netlifyPageValues = readAudits("netlify-vanilla-page-", auditType);
+    const cfVanillaFCPs = readAudits("cf-vanilla-", auditType);
+    const cfDisqusFCPs = readAudits("cf-disqus-", auditType);
+    const cfLazyDisqusFCPs = readAudits("cf-lazy-disqus-", auditType);
+    const cfIslandsFCPs = readAudits("cf-islands-", auditType);
 
-    calculatedRows.ssrIndex[auditType] = {
-      firstRun: edgeIndexValues[0],
-      median: median(edgeIndexValues.slice(1)),
-      average: average(edgeIndexValues.slice(1)),
+    calculatedRows.cfVanilla[auditType] = {
+      firstRun: cfVanillaFCPs[0],
+      median: median(cfVanillaFCPs),
+      average: average(cfVanillaFCPs),
     };
-    calculatedRows.ssrPost[auditType] = {
-      firstRun: edgePageValues[0],
-      median: median(edgePageValues.slice(1)),
-      average: average(edgePageValues.slice(1)),
+    calculatedRows.cfDisqus[auditType] = {
+      firstRun: cfDisqusFCPs[0],
+      median: median(cfDisqusFCPs),
+      average: average(cfDisqusFCPs),
     };
-    calculatedRows.isrIndex[auditType] = {
-      firstRun: edgeWithIsrIndexValues[0],
-      median: median(edgeWithIsrIndexValues.slice(1)),
-      average: average(edgeWithIsrIndexValues.slice(1)),
+    calculatedRows.cfLazyDisqus[auditType] = {
+      firstRun: cfLazyDisqusFCPs[0],
+      median: median(cfLazyDisqusFCPs),
+      average: average(cfLazyDisqusFCPs),
     };
-    calculatedRows.isrPost[auditType] = {
-      firstRun: edgeWithIsrPageValues[0],
-      median: median(edgeWithIsrPageValues.slice(1)),
-      average: average(edgeWithIsrPageValues.slice(1)),
-    };
-    calculatedRows.ssgIndex[auditType] = {
-      firstRun: ssgIndexValues[0],
-      median: median(ssgIndexValues.slice(1)),
-      average: average(ssgIndexValues.slice(1)),
-    };
-    calculatedRows.ssgPost[auditType] = {
-      firstRun: ssgPageValues[0],
-      median: median(ssgPageValues.slice(1)),
-      average: average(ssgPageValues.slice(1)),
-    };
-    calculatedRows.netlifySsgIndex[auditType] = {
-      firstRun: netlifyIndexValues[0],
-      median: median(netlifyIndexValues.slice(1)),
-      average: average(netlifyIndexValues.slice(1)),
-    };
-    calculatedRows.netlifySsgPost[auditType] = {
-      firstRun: netlifyPageValues[0],
-      median: median(netlifyPageValues.slice(1)),
-      average: average(netlifyPageValues.slice(1)),
+    calculatedRows.cfIslands[auditType] = {
+      firstRun: cfIslandsFCPs[0],
+      median: median(cfIslandsFCPs),
+      average: average(cfIslandsFCPs),
     };
   });
 
   function getRow(name, property) {
     return `${name} & ${Math.round(
-      calculatedRows[property]["first-contentful-paint"].firstRun
+      calculatedRows[property]["first-contentful-paint"].firstRun,
     )} & ${Math.round(
-      calculatedRows[property]["first-contentful-paint"].median
+      calculatedRows[property]["first-contentful-paint"].median,
     )} & ${Math.round(
-      calculatedRows[property]["first-contentful-paint"].average
+      calculatedRows[property]["first-contentful-paint"].average,
     )} & ${Math.round(
-      calculatedRows[property]["server-response-time"].firstRun
+      calculatedRows[property]["server-response-time"].firstRun,
     )} & ${Math.round(
-      calculatedRows[property]["server-response-time"].median
+      calculatedRows[property]["server-response-time"].median,
     )} & ${Math.round(
-      calculatedRows[property]["server-response-time"].average
+      calculatedRows[property]["server-response-time"].average,
     )} \\\\\n`;
   }
 
   const rows = [
-    ["CF SSR index", "ssrIndex"],
-    ["CF SSR post", "ssrPost"],
-    ["CF ISR index", "isrIndex"],
-    ["CF ISR post", "isrPost"],
-    ["CF SSG index", "ssgIndex"],
-    ["CF SSG post", "ssgPost"],
-    ["Netlify SSG index", "netlifySsgIndex"],
-    ["Netlify SSG post", "netlifySsgPost"],
+    ["CF vanilla", "cfVanilla"],
+    ["CF Disqus", "cfDisqus"],
+    ["CF lazy Disqus", "cfLazyDisqus"],
+    ["CF islands", "cfIslands"],
   ];
 
   console.log(rows.map((row) => getRow(row[0], row[1])).join(""));

@@ -1,4 +1,3 @@
-// Before running, remember to empty ISR cache!
 const { test } = require("@playwright/test");
 const { playAudit } = require("playwright-lighthouse");
 const playwright = require("playwright");
@@ -13,12 +12,12 @@ const thresholds = {
   pwa: 10,
 };
 
-testSuites("cf", "https://ssg-benchmark.pages.dev", [
+testSuites("cf", "https://comments-benchmark.pages.dev", [
   "vanilla",
-  "edge",
-  "edge-with-isr",
+  "disqus",
+  "lazy-disqus",
+  "islands",
 ]);
-testSuites("netlify", "https://ssg-benchmark.netlify.app", ["vanilla"]);
 test.afterAll(() => {
   printCSV();
   printTable();
@@ -30,37 +29,40 @@ function testSuites(type, prefix, names) {
   range(5).forEach((i) =>
     names.forEach((name) =>
       test(prefix + " - " + name + " audit blog index #" + (i + 1), () =>
-        auditBlogIndex(type, prefix, name, i + 1)
-      )
-    )
+        auditBlogPage(type, prefix, name, i + 1),
+      ),
+    ),
   );
+  /*
   range(5).forEach((i) =>
     names.forEach((name) =>
       test(prefix + " - " + name + " audit blog page #" + (i + 1), () =>
-        auditBlogPage(type, prefix, name, i + 1)
-      )
-    )
+        auditBlogPage(type, prefix, name, i + 1),
+      ),
+    ),
   );
+  */
 }
 
-async function auditBlogIndex(type, prefix, name, n) {
+async function auditBlogPage(type, prefix, name, n) {
   const port = 9222;
   const browser = await playwright["chromium"].launch({
     args: [`--remote-debugging-port=${port}`],
   });
   const page = await browser.newPage();
-  await page.goto(`${prefix}/${name}/posts/`);
+  await page.goto(`${prefix}/${name}/10/`);
 
   await playAudit({
     page,
     thresholds,
-    reports: getReportsConfiguration(type + "-" + name + "-index-" + n),
+    reports: getReportsConfiguration(type + "-" + name + "-" + n),
     port,
   });
 
   await browser.close();
 }
 
+/*
 async function auditBlogPage(type, prefix, name, n) {
   const port = 9223;
   const browser = await playwright["chromium"].launch({
@@ -81,3 +83,4 @@ async function auditBlogPage(type, prefix, name, n) {
 
   await browser.close();
 }
+*/
