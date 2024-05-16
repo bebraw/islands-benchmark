@@ -21,22 +21,10 @@ export async function onRequest({
     });
   }
 
-  /*
-  let comments = [];
-
-  try {
-    const data = await env.COMMENTS.get(id);
-
-    if (data) {
-      comments = JSON.parse(data);
-    }
-  } catch (error) {}
-  */
-
   return new Response(
     postTemplateWithComments({
       ...foundPost,
-      comments: [],
+      comments: await getComments(env.COMMENTS, id),
       base: "/vanilla/",
     }),
     {
@@ -46,4 +34,16 @@ export async function onRequest({
       },
     },
   );
+}
+
+async function getComments(db: KVNamespace, id: string) {
+  try {
+    const data = await db.get(id);
+
+    if (data) {
+      return JSON.parse(data);
+    }
+  } catch (_error) {}
+
+  return [];
 }
