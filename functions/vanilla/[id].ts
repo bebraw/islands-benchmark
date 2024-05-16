@@ -1,4 +1,5 @@
 import { postTemplateWithComments } from "../../templates/vanilla.ts";
+import { getComments } from "../../utils.ts";
 import type { Post } from "../../types.ts";
 
 export async function onRequest({
@@ -34,16 +35,4 @@ export async function onRequest({
       },
     },
   );
-}
-
-async function getComments(db: KVNamespace, id: string) {
-  try {
-    const data = await db.get(id);
-
-    if (data) {
-      return JSON.parse(data);
-    }
-  } catch (_error) {}
-
-  return [];
 }

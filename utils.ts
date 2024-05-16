@@ -1,3 +1,15 @@
+async function getComments(db: KVNamespace, id: string) {
+  try {
+    const data = await db.get(id);
+
+    if (data) {
+      return JSON.parse(data);
+    }
+  } catch (_error) {}
+
+  return [];
+}
+
 // Adapted and extracted from https://reego.dev/blog/achieving-isr-on-cloudflare-workers
 async function isr(
   request: Request,
@@ -10,7 +22,7 @@ async function isr(
   render: (request: Request) => Promise<{
     status: number;
     body: string;
-  }>
+  }>,
 ) {
   const url = new URL(request.url);
 
@@ -59,7 +71,7 @@ async function isr(
       "Error rendering route: " + (error.message || error.toString()),
       {
         status: 500,
-      }
+      },
     );
   }
 
@@ -72,4 +84,4 @@ function range(n: number, customizer = (i: number) => i) {
   return Array.from(Array(n), (_, i) => customizer(i));
 }
 
-export { isr, range };
+export { getComments, isr, range };

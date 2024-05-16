@@ -49,12 +49,19 @@ function postTemplateWithCommentsIsland({
   title: string;
   content: string;
 }) {
-  // TODO: Trigger loading the island content here instead of removing hidden
   return baseTemplate({
     base,
     title,
     content: `${content}<div>
-    <button onclick="document.getElementById('comments').removeAttribute('hidden')">Show comments</button>
+    <script>
+    async function fetchComments() {
+      const comments = await (await fetch('/api/get-comments?id=${id}')).text();
+
+      document.getElementById('comments').innerHTML = comments;
+    }
+    </script>
+    <button onclick="fetchComments()">Show comments</button>
+    <div id="comments"></div>
   </div>`,
   });
 }
