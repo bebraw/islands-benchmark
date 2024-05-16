@@ -47,6 +47,39 @@ function postTemplateWithComments({
   });
 }
 
+function postTemplateWithCommentsIsland({
+  id,
+  base,
+  title,
+  content,
+  comments = [],
+}: {
+  id: Post["id"];
+  base: string;
+  title: string;
+  content: string;
+  comments: Comment[];
+}) {
+  // TODO: Trigger loading the island content here instead of removing hidden
+  return baseTemplate({
+    base,
+    title,
+    content: `${content}<div>
+    <button onclick="document.getElementById('comments').removeAttribute('hidden')">Show comments</button>
+    <div hidden id="comments">
+      <h2>Comments</h2>
+      <ul>${comments.map(({ content }) => `<li><div>${content}</div></li>`).join("")}</ul>
+      <form action="/api/comment" method="post">
+        <label for="new-comment">Leave a comment</label>
+        <input type="hidden" name="id" value="${id}" />
+        <textarea id="new-comment" name="comment" rows="4" cols="40"></textarea>
+        <button type="submit">Send a comment</button>
+      </form>
+    </div>
+  </div>`,
+  });
+}
+
 function postTemplateWithDisqus({
   base,
   title,
@@ -142,6 +175,7 @@ export {
   postIndexTemplate,
   baseTemplate as postTemplate,
   postTemplateWithComments,
+  postTemplateWithCommentsIsland,
   postTemplateWithDisqus,
   postTemplateWithLazyDisqus,
 };

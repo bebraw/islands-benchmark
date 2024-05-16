@@ -1,4 +1,4 @@
-import { postTemplateWithComments } from "../../templates/vanilla.ts";
+import { postTemplateWithCommentsIsland } from "../../templates/vanilla.ts";
 import type { Post } from "../../types.ts";
 
 export async function onRequest({
@@ -34,7 +34,7 @@ export async function onRequest({
   */
 
   return new Response(
-    postTemplateWithComments({
+    postTemplateWithCommentsIsland({
       ...foundPost,
       comments: [],
       base: "/islands/",
