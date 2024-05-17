@@ -75,7 +75,7 @@ function commentsSection({
 }) {
   return `<section>
     <h2>Comments</h2>
-    <ul>${comments.map(({ content }) => `<li><div>${content}</div></li>`).join("")}</ul>
+    <ul>${comments.map(({ content }) => `<li><div>${sanitizeHTML(content)}</div></li>`).join("")}</ul>
     <form action="/api/comment" method="post">
       <label for="new-comment">Leave a comment</label>
       <input type="hidden" name="id" value="${id}" />
@@ -83,6 +83,25 @@ function commentsSection({
       <button type="submit">Send a comment</button>
     </form>
   </section>`;
+}
+
+// MIT: https://github.com/antoinefink/simple-static-comments/blob/master/index.js
+function sanitizeHTML(string: string) {
+  const map = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#x27;",
+    "/": "&#x2F;",
+  };
+  const reg = /[&<>"'/]/gi;
+  return string.replace(
+    reg,
+    (match) =>
+      // @ts-expect-error This is fine
+      map[match],
+  );
 }
 
 function postTemplateWithDisqus({
