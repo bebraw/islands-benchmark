@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import glob from "glob";
+import { glob } from "glob";
 import { test } from "@playwright/test";
 import { playAudit } from "playwright-lighthouse";
 import playwright from "playwright";
@@ -213,7 +213,7 @@ function readAudits(pageType, auditType) {
   return audits.map((a) => a["audits"][auditType]["numericValue"]);
 }
 
-function range(n, customizer) {
+function range(n, customizer = (i) => i) {
   return Array.from(Array(n), (_, i) => customizer(i));
 }
 
