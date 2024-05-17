@@ -20,7 +20,7 @@
     "mkdirp": "^3.0.1",
     "nanoid": "^5.0.7",
     "rmfr": "^2.0.0",
-    "wrangler": "^3.56.0"
+    "wrangler": "^3.57.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240512.0",
@@ -36,7 +36,7 @@
     "prettier": "^3.2.5",
     "serve": "^14.2.3",
     "tslib": "^2.6.2",
-    "tsx": "^4.10.2",
+    "tsx": "^4.10.4",
     "typescript": "^5.4.5"
   }
 }
