@@ -49,8 +49,9 @@ async function auditBlogPage(type, prefix, name, n) {
   const browser = await playwright["chromium"].launch({
     args: [`--remote-debugging-port=${port}`],
   });
+  const url = `${prefix}/${name}/10/`;
   const page = await browser.newPage();
-  await page.goto(`${prefix}/${name}/10/`);
+  await page.goto(url);
 
   await playAudit({
     page,
