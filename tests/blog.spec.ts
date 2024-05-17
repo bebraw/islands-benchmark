@@ -25,9 +25,9 @@ test.afterAll(() => {
 
 // The idea is to run similar test cases at the same time to avoid
 // weirdness related to connectivity as connection speed may vary.
-function testSuites(type, prefix, names) {
+function testSuites(type: string, prefix: string, names: string[]) {
   range(5).forEach((i) =>
-    names.forEach((name) =>
+    names.forEach((name: string) =>
       test(prefix + " - " + name + " audit blog index #" + (i + 1), () =>
         auditBlogPage(type, prefix, name, i + 1),
       ),
@@ -44,7 +44,12 @@ function testSuites(type, prefix, names) {
   */
 }
 
-async function auditBlogPage(type, prefix, name, n) {
+async function auditBlogPage(
+  type: string,
+  prefix: string,
+  name: string,
+  n: number,
+) {
   const port = 9222;
   const browser = await playwright["chromium"].launch({
     args: [`--remote-debugging-port=${port}`],
@@ -101,7 +106,7 @@ function printCSV() {
     const cfLazyDisqusFCPs = readAudits("cf-lazy-disqus-", auditType);
     const cfIslandsFCPs = readAudits("cf-islands-", auditType);
 
-    function pickRow(i) {
+    function pickRow(i: number) {
       return `${i + 1},${cfVanillaFCPs[i]},${cfDisqusFCPs[i]},${
         cfLazyDisqusFCPs[i]
       },${cfIslandsFCPs[i]}`;
@@ -125,14 +130,24 @@ function printTable() {
     // "interactive",
     "server-response-time",
   ];
-  const calculatedRows = {
+  const calculatedRows: {
+    cfVanilla: Record<string, CalculatedRow>;
+    cfDisqus: Record<string, CalculatedRow>;
+    cfLazyDisqus: Record<string, CalculatedRow>;
+    cfIslands: Record<string, CalculatedRow>;
+  } = {
     cfVanilla: {},
     cfDisqus: {},
     cfLazyDisqus: {},
     cfIslands: {},
   };
+  type CalculatedRow = {
+    firstRun?: number;
+    median?: number;
+    average?: number;
+  };
 
-  auditTypes.forEach((auditType) => {
+  auditTypes.forEach((auditType: string) => {
     const cfVanillaFCPs = readAudits("cf-vanilla-", auditType);
     const cfDisqusFCPs = readAudits("cf-disqus-", auditType);
     const cfLazyDisqusFCPs = readAudits("cf-lazy-disqus-", auditType);
@@ -160,18 +175,24 @@ function printTable() {
     };
   });
 
-  function getRow(name, property) {
+  function getRow(name: string, property: string) {
     return `${name} & ${Math.round(
+      // @ts-expect-error This is fine
       calculatedRows[property]["first-contentful-paint"].firstRun,
     )} & ${Math.round(
+      // @ts-expect-error This is fine
       calculatedRows[property]["first-contentful-paint"].median,
     )} & ${Math.round(
+      // @ts-expect-error This is fine
       calculatedRows[property]["first-contentful-paint"].average,
     )} & ${Math.round(
+      // @ts-expect-error This is fine
       calculatedRows[property]["server-response-time"].firstRun,
     )} & ${Math.round(
+      // @ts-expect-error This is fine
       calculatedRows[property]["server-response-time"].median,
     )} & ${Math.round(
+      // @ts-expect-error This is fine
       calculatedRows[property]["server-response-time"].average,
     )} \\\\\n`;
   }
@@ -186,7 +207,7 @@ function printTable() {
   console.log(rows.map((row) => getRow(row[0], row[1])).join(""));
 }
 
-function median(values) {
+function median(values: number[]) {
   const amount = values.length;
 
   if (amount % 2) {
@@ -200,13 +221,13 @@ function median(values) {
   );
 }
 
-function average(values) {
+function average(values: number[]) {
   const sum = values.reduce((a, b) => a + b, 0);
 
   return sum / values.length;
 }
 
-function readAudits(pageType, auditType) {
+function readAudits(pageType: string, auditType: string) {
   const files = glob.sync("benchmark-output/" + pageType + "*-audit.json");
 
   const audits = files.map((f) => fs.readFileSync(f)).map((d) => JSON.parse(d));
@@ -214,11 +235,11 @@ function readAudits(pageType, auditType) {
   return audits.map((a) => a["audits"][auditType]["numericValue"]);
 }
 
-function range(n, customizer = (i) => i) {
+function range(n: number, customizer = (i: number) => i) {
   return Array.from(Array(n), (_, i) => customizer(i));
 }
 
-function getReportsConfiguration(prefix) {
+function getReportsConfiguration(prefix: string) {
   return {
     formats: { json: true, html: true, csv: true },
     name: prefix + "-audit",
