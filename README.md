@@ -53,3 +53,7 @@ To run the whole suite that emits a CSV suitable for `main.tex`, use `npm run au
 
 * https://github.com/Polymer/tachometer
 * https://www.npmjs.com/package/benny
+
+## References
+
+* https://github.com/antoinefink/simple-static-comments
