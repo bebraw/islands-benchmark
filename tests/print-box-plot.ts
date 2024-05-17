@@ -90,8 +90,9 @@ function printBoxPlot() {
     rows
       .map((row) =>
         template(
+          // This is where you can adjust what to print (FCP or SRT)
           // @ts-expect-error This is fine for now
-          calculatedRows[row[1]]["server-response-time"],
+          calculatedRows[row[1]]["first-contentful-paint"],
         ),
       )
       .join(""),
