@@ -1,8 +1,9 @@
-import * as fs from "fs";
-import { glob } from "glob";
 import { test } from "@playwright/test";
 import { playAudit } from "playwright-lighthouse";
 import playwright from "playwright";
+import { readAudits } from "./read-audits.ts";
+import { printCSV } from "./print-csv.ts";
+import { average, median, range } from "./math.ts";
 
 const thresholds = {
   performance: 50,
@@ -11,6 +12,7 @@ const thresholds = {
   seo: 50,
   pwa: 10,
 };
+const amountOfRuns = 5;
 
 testSuites("cf", "https://comments-benchmark.pages.dev", [
   "vanilla",
@@ -19,7 +21,7 @@ testSuites("cf", "https://comments-benchmark.pages.dev", [
   "islands",
 ]);
 test.afterAll(() => {
-  printCSV();
+  printCSV(amountOfRuns);
   printTable();
 });
 
@@ -92,34 +94,6 @@ async function auditBlogPage(type, prefix, name, n) {
 */
 
 // Utils
-function printCSV() {
-  // Check the output JSON files for possible audits
-  const auditTypes = [
-    "first-contentful-paint",
-    "server-response-time",
-    "interactive",
-  ];
-
-  auditTypes.forEach((auditType) => {
-    const cfVanillaFCPs = readAudits("cf-vanilla-", auditType);
-    const cfDisqusFCPs = readAudits("cf-disqus-", auditType);
-    const cfLazyDisqusFCPs = readAudits("cf-lazy-disqus-", auditType);
-    const cfIslandsFCPs = readAudits("cf-islands-", auditType);
-
-    function pickRow(i: number) {
-      return `${i + 1},${cfVanillaFCPs[i]},${cfDisqusFCPs[i]},${
-        cfLazyDisqusFCPs[i]
-      },${cfIslandsFCPs[i]}`;
-    }
-
-    console.log(`\nAudit type: ${auditType}`);
-    // This output should go to main.tex
-    console.log(`a,b,c,d,e
-${range(5)
-  .map((i) => pickRow(i))
-  .join("\n")}`);
-  });
-}
 
 // TODO: This code could be condensed a lot
 function printTable() {
@@ -205,38 +179,6 @@ function printTable() {
   ];
 
   console.log(rows.map((row) => getRow(row[0], row[1])).join(""));
-}
-
-function median(values: number[]) {
-  const amount = values.length;
-
-  if (amount % 2) {
-    // For example, length is 5 -> pick 2nd from a zero-indexed array
-    return values[Math.floor(amount / 2)];
-  }
-
-  // For example, length is 6 -> pick average of indices 2 and 3
-  return (
-    (values[Math.floor(amount / 2)] + values[Math.floor(amount / 2) - 1]) / 2
-  );
-}
-
-function average(values: number[]) {
-  const sum = values.reduce((a, b) => a + b, 0);
-
-  return sum / values.length;
-}
-
-function readAudits(pageType: string, auditType: string) {
-  const files = glob.sync("benchmark-output/" + pageType + "*-audit.json");
-
-  const audits = files.map((f) => fs.readFileSync(f)).map((d) => JSON.parse(d));
-
-  return audits.map((a) => a["audits"][auditType]["numericValue"]);
-}
-
-function range(n: number, customizer = (i: number) => i) {
-  return Array.from(Array(n), (_, i) => customizer(i));
 }
 
 function getReportsConfiguration(prefix: string) {

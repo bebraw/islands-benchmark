@@ -11,6 +11,8 @@
     "autocannon": "node ./run-autocannon.js",
     "autocannon:islands": "autocannon -d=30 https://comments-benchmark.pages.dev/islands/10",
     "autocannon:local:islands": "autocannon -d=30 http://127.0.0.1:8788/islands/10",
+    "print-box-plot": "node --loader ts-node/esm ./print-box-plot.ts",
+    "print-table": "node --loader ts-node/esm ./print-table.ts",
     "playwright": "playwright test"
   },
   "keywords": [],
@@ -35,6 +37,7 @@
     "playwright-lighthouse": "^4.0.0",
     "prettier": "^3.2.5",
     "serve": "^14.2.3",
+    "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
     "tsx": "^4.10.4",
     "typescript": "^5.4.5"
