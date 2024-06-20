@@ -37,13 +37,14 @@ function productIndexTemplateWithIsland({
     base,
     title,
     content: `<script>
-    async function fetchProducts(search) {
-      const products = await (await fetch('/api/get-products?html&search=' + search)).text();
+    async function fetchProducts(event) {
+      const search = event.target.elements.search.value;
+      const products = await (await fetch('/api/get-products?format=html&search=' + search)).text();
 
       document.getElementById('products').innerHTML = products;
     }
   </script>
-  <form action="${base}" method="get">
+  <form action="${base}" method="get" onsubmit="fetchProducts(event); return false;">
     <input name="search" value="${search}" />
     <input type="submit" value="Search" />
   </form>
