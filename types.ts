@@ -8,3 +8,10 @@ export type Post = {
   title: string;
   content: string;
 };
+
+export type Product = {
+  id: string;
+  title: string;
+  content: string;
+  price: number;
+};

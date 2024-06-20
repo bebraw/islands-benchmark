@@ -16,8 +16,6 @@ export async function onRequest({
   const posts: Post[] = await res.json();
   const foundPost = posts.find((p) => p.id === id);
 
-  console.log("id", id);
-
   if (!foundPost) {
     return new Response(`{ "error": "No matching post was found" }`, {
       status: 500,
