@@ -15,10 +15,8 @@ const thresholds = {
 const amountOfRuns = 5;
 
 testSuites("cf", "https://comments-benchmark.pages.dev", [
-  "vanilla",
-  "disqus",
-  "lazy-disqus",
-  "islands",
+  "ssr-ecommerce",
+  "islands-ecommerce",
 ]);
 test.afterAll(() => {
   printCSV(amountOfRuns);
@@ -30,14 +28,14 @@ test.afterAll(() => {
 function testSuites(type: string, prefix: string, names: string[]) {
   range(5).forEach((i) =>
     names.forEach((name: string) =>
-      test(prefix + " - " + name + " audit blog index #" + (i + 1), () =>
-        auditBlogPage(type, prefix, name, i + 1),
+      test(prefix + " - " + name + " audit ecommerce #" + (i + 1), () =>
+        auditEcommercePage(type, prefix, name, i + 1),
       ),
     ),
   );
 }
 
-async function auditBlogPage(
+async function auditEcommercePage(
   type: string,
   prefix: string,
   name: string,
@@ -47,9 +45,13 @@ async function auditBlogPage(
   const browser = await playwright["chromium"].launch({
     args: [`--remote-debugging-port=${port}`],
   });
-  const url = `${prefix}/${name}/10/`;
+  const url = `${prefix}/${name}`;
   const page = await browser.newPage();
   await page.goto(url);
+
+  // Enter letter p to the search field and click "search"
+  page.locator('*[name="search"]').fill("p");
+  await page.locator('*[type="submit"]').click();
 
   await playAudit({
     page,
@@ -73,15 +75,11 @@ function printTable() {
     "server-response-time",
   ];
   const calculatedRows: {
-    cfVanilla: Record<string, CalculatedRow>;
-    cfDisqus: Record<string, CalculatedRow>;
-    cfLazyDisqus: Record<string, CalculatedRow>;
-    cfIslands: Record<string, CalculatedRow>;
+    ssr: Record<string, CalculatedRow>;
+    islands: Record<string, CalculatedRow>;
   } = {
-    cfVanilla: {},
-    cfDisqus: {},
-    cfLazyDisqus: {},
-    cfIslands: {},
+    ssr: {},
+    islands: {},
   };
   type CalculatedRow = {
     firstRun?: number;
@@ -90,30 +88,18 @@ function printTable() {
   };
 
   auditTypes.forEach((auditType: string) => {
-    const cfVanillaFCPs = readAudits("cf-vanilla-", auditType);
-    const cfDisqusFCPs = readAudits("cf-disqus-", auditType);
-    const cfLazyDisqusFCPs = readAudits("cf-lazy-disqus-", auditType);
-    const cfIslandsFCPs = readAudits("cf-islands-", auditType);
+    const ssrFCPs = readAudits("ssr-ecommerce-", auditType);
+    const islandsFCPs = readAudits("islands-ecommerce-", auditType);
 
-    calculatedRows.cfVanilla[auditType] = {
-      firstRun: cfVanillaFCPs[0],
-      median: median(cfVanillaFCPs),
-      average: average(cfVanillaFCPs),
+    calculatedRows.ssr[auditType] = {
+      firstRun: ssrFCPs[0],
+      median: median(ssrFCPs),
+      average: average(ssrFCPs),
     };
-    calculatedRows.cfDisqus[auditType] = {
-      firstRun: cfDisqusFCPs[0],
-      median: median(cfDisqusFCPs),
-      average: average(cfDisqusFCPs),
-    };
-    calculatedRows.cfLazyDisqus[auditType] = {
-      firstRun: cfLazyDisqusFCPs[0],
-      median: median(cfLazyDisqusFCPs),
-      average: average(cfLazyDisqusFCPs),
-    };
-    calculatedRows.cfIslands[auditType] = {
-      firstRun: cfIslandsFCPs[0],
-      median: median(cfIslandsFCPs),
-      average: average(cfIslandsFCPs),
+    calculatedRows.islands[auditType] = {
+      firstRun: islandsFCPs[0],
+      median: median(islandsFCPs),
+      average: average(islandsFCPs),
     };
   });
 
@@ -140,10 +126,8 @@ function printTable() {
   }
 
   const rows = [
-    ["CF vanilla", "cfVanilla"],
-    ["CF Disqus", "cfDisqus"],
-    ["CF lazy Disqus", "cfLazyDisqus"],
-    ["CF islands", "cfIslands"],
+    ["SSR", "ssr"],
+    ["Islands", "islands"],
   ];
 
   console.log(rows.map((row) => getRow(row[0], row[1])).join(""));

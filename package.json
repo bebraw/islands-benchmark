@@ -11,8 +11,8 @@
     "autocannon": "node ./run-autocannon.js",
     "autocannon:islands": "autocannon -d=30 https://comments-benchmark.pages.dev/islands/10",
     "autocannon:local:islands": "autocannon -d=30 http://127.0.0.1:8788/islands/10",
-    "print-box-plot": "node --loader ts-node/esm ./print-box-plot.ts",
-    "print-table": "node --loader ts-node/esm ./print-table.ts",
+    "comments:print-box-plot": "node --loader ts-node/esm ./print-comments-box-plot.ts",
+    "ecommerce:print-box-plot": "node --loader ts-node/esm ./print-ecommerce-box-plot.ts",
     "playwright": "playwright test"
   },
   "keywords": [],
