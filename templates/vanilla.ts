@@ -18,13 +18,46 @@ function productIndexTemplate({
     <input name="search" value="${search}" />
     <input type="submit" value="Search" />
 </form>
-<div><ul>${products
-      .map(
-        ({ id, title, price }) =>
-          `<li><a href="./${id}">${title}</a><p>${price} €</p></li>`,
-      )
-      .join("")}</ul></div>`,
+<div>${productsTemplate(products)}</div>`,
   });
+}
+
+function productIndexTemplateWithIsland({
+  base,
+  title,
+  products,
+  search,
+}: {
+  base: string;
+  title: string;
+  products: Product[];
+  search: string | null;
+}) {
+  return baseTemplate({
+    base,
+    title,
+    content: `<script>
+    async function fetchProducts(search) {
+      const products = await (await fetch('/api/get-products?html&search=' + search)).text();
+
+      document.getElementById('products').innerHTML = products;
+    }
+  </script>
+  <form action="${base}" method="get">
+    <input name="search" value="${search}" />
+    <input type="submit" value="Search" />
+  </form>
+<div id="products">${productsTemplate(products)}</div>`,
+  });
+}
+
+function productsTemplate(products: Product[]) {
+  return `<ul>${products
+    .map(
+      ({ id, title, price }) =>
+        `<li><a href="./${id}">${title}</a><p>${price} €</p></li>`,
+    )
+    .join("")}</ul>`;
 }
 
 function postIndexTemplate({
@@ -231,4 +264,6 @@ export {
   postTemplateWithDisqus,
   postTemplateWithLazyDisqus,
   productIndexTemplate,
+  productIndexTemplateWithIsland,
+  productsTemplate,
 };

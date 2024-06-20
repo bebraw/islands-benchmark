@@ -1,4 +1,4 @@
-import { productIndexTemplate } from "../../templates/vanilla.ts";
+import { productIndexTemplateWithIsland } from "../../templates/vanilla.ts";
 import type { Product } from "../../types.ts";
 
 // TODO: Islandify search logic
@@ -11,7 +11,7 @@ export async function onRequest({ request: { url } }: { request: Request }) {
   const products: Product[] = await res.json();
 
   return new Response(
-    productIndexTemplate({
+    productIndexTemplateWithIsland({
       base: "/islands-ecommerce/",
       title: "Products",
       products,

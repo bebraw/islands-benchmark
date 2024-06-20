@@ -1,3 +1,4 @@
+import { productsTemplate } from "../../templates/vanilla.ts";
 import type { Product } from "../../types.ts";
 
 const products: Product[] = [
@@ -54,6 +55,7 @@ const products: Product[] = [
 export async function onRequest({ request: { url } }: { request: Request }) {
   const { searchParams } = new URL(url);
   const search = searchParams.get("search");
+  const format = searchParams.get("format");
 
   let foundProducts = products;
   if (search && search !== "null") {
@@ -62,6 +64,17 @@ export async function onRequest({ request: { url } }: { request: Request }) {
     );
   }
 
+  if (format === "html") {
+    return new Response(productsTemplate(foundProducts), {
+      status: 200,
+      headers: {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "max-age=3600",
+      },
+    });
+  }
+
+  // Default to JSON
   return new Response(JSON.stringify(foundProducts, null, 2), {
     status: 200,
     headers: {
