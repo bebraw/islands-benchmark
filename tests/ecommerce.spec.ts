@@ -51,6 +51,7 @@ async function auditEcommercePage(
   const page = await browser.newPage();
   const flow = await startFlow(page, {
     config: {
+      extends: "lighthouse:default",
       settings: {
         formFactor: "mobile",
       },
