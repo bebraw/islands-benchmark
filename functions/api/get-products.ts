@@ -69,7 +69,8 @@ export async function onRequest({ request: { url } }: { request: Request }) {
       status: 200,
       headers: {
         "content-type": "text/html; charset=utf-8",
-        "cache-control": "max-age=3600",
+        // Avoid caching as this can skew results
+        // "cache-control": "max-age=3600",
       },
     });
   }
@@ -79,7 +80,8 @@ export async function onRequest({ request: { url } }: { request: Request }) {
     status: 200,
     headers: {
       "content-type": "application/json",
-      "cache-control": "max-age=3600",
+      // Avoid caching as this can skew results
+      // "cache-control": "max-age=3600",
     },
   });
 }
