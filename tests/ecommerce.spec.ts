@@ -88,8 +88,8 @@ function printTable() {
   };
 
   auditTypes.forEach((auditType: string) => {
-    const ssrFCPs = readAudits("ssr-ecommerce-", auditType);
-    const islandsFCPs = readAudits("islands-ecommerce-", auditType);
+    const ssrFCPs = readAudits("cf-ssr-ecommerce-", auditType);
+    const islandsFCPs = readAudits("cf-islands-ecommerce-", auditType);
 
     calculatedRows.ssr[auditType] = {
       firstRun: ssrFCPs[0],

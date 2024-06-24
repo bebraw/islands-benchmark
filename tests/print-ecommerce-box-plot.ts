@@ -27,8 +27,8 @@ function printBoxPlot() {
   };
 
   auditTypes.forEach((auditType) => {
-    const ssrFCPs = readAudits("ssr-ecommerce-", auditType);
-    const islandsFCPs = readAudits("islands-ecommerce-", auditType);
+    const ssrFCPs = readAudits("cf-ssr-ecommerce-", auditType);
+    const islandsFCPs = readAudits("cf-islands-ecommerce-", auditType);
 
     calculatedRows.ssr[auditType] = getValues(ssrFCPs);
     calculatedRows.islands[auditType] = getValues(islandsFCPs);
