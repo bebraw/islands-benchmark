@@ -1,70 +1,100 @@
-import { test } from "@playwright/test";
-import { playAudit } from "playwright-lighthouse";
-import playwright from "playwright";
-// import { startFlow } from "lighthouse";
+import { writeFileSync } from "fs";
+import puppeteer from "puppeteer";
+import { startFlow } from "lighthouse";
 import { readAudits } from "./read-audits.ts";
 import { printCSV } from "./print-csv.ts";
 import { average, median, range } from "./math.ts";
 
-const thresholds = {
-  performance: 50,
-  accessibility: 50,
-  "best-practices": 50,
-  seo: 50,
-  pwa: 10,
-};
 const amountOfRuns = 5;
 
-testSuites("cf", "https://comments-benchmark.pages.dev", [
-  "ssr-ecommerce",
-  "islands-ecommerce",
-]);
-test.afterAll(() => {
+async function main() {
+  await testSuites("cf", "https://comments-benchmark.pages.dev", [
+    "ssr-ecommerce",
+    "islands-ecommerce",
+  ]);
+
   printCSV(amountOfRuns);
   printTable();
-});
+}
+
+main();
 
 // The idea is to run similar test cases at the same time to avoid
 // weirdness related to connectivity as connection speed may vary.
 function testSuites(type: string, prefix: string, names: string[]) {
-  range(amountOfRuns).forEach((i) =>
-    names.forEach((name: string) =>
-      test(prefix + " - " + name + " audit ecommerce #" + (i + 1), () =>
-        auditEcommercePage(type, prefix, name, i + 1),
+  return Promise.all(
+    range(amountOfRuns).flatMap((i) =>
+      names.map((name: string) =>
+        test(prefix + " - " + name + " audit ecommerce #" + (i + 1), () =>
+          auditEcommercePage(type, prefix, name, i + 1),
+        ),
       ),
     ),
   );
 }
 
+function test(name: string, fn: () => void) {
+  console.log(`Running test: ${name}`);
+
+  return fn();
+}
+
+// Adapted from https://github.com/GoogleChrome/lighthouse/blob/main/docs/user-flows.md
 async function auditEcommercePage(
   type: string,
   prefix: string,
   name: string,
   n: number,
 ) {
-  // TODO: Rewrite this using startFlow
-  const port = 9222;
-  const browser = await playwright["chromium"].launch({
-    args: [`--remote-debugging-port=${port}`],
-  });
   const url = `${prefix}/${name}`;
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(url);
-
-  // TODO: This needs a puppeteer instance!
-  // const flow = await startFlow(page);
-
-  // Enter letter p to the search field and click "search"
-  page.locator('*[name="search"]').fill("p");
-  await page.locator('*[type="submit"]').click();
-
-  await playAudit({
-    page,
-    thresholds,
-    reports: getReportsConfiguration(type + "-" + name + "-" + n),
-    port,
+  const flow = await startFlow(page, {
+    config: {
+      settings: {
+        formFactor: "mobile",
+      },
+    },
   });
 
+  // Phase 1 - Navigate to the page.
+  await flow.navigate(url);
+
+  // Phase 2 - Interact with the page and submit the search form.
+  await flow.startTimespan();
+
+  // Enter letter p to the search field and press "search"
+  const searchElement = await page.waitForSelector(`*[name="search"]`);
+
+  if (!searchElement) {
+    throw new Error("Failed to find search element");
+  }
+
+  await searchElement.type("p");
+
+  const submitElement = await page.waitForSelector(`*[type="submit"]`);
+
+  if (!submitElement) {
+    throw new Error("Failed to find submit element");
+  }
+
+  await submitElement.press("Enter");
+
+  // Ensure search results have rendered
+  await page.waitForSelector(`#products`);
+
+  await flow.endTimespan();
+
+  // Phase 3 - Analyze the new state.
+  await flow.snapshot();
+
+  // Phase 4 - Save results as JSON.
+  writeFileSync(
+    `benchmark-output/${type}-${name}-${n}-audit.json`,
+    JSON.stringify(await flow.createFlowResult(), null, 2),
+  );
+
+  // Phase 5 - Clean up
   await browser.close();
 }
 
@@ -136,14 +166,4 @@ function printTable() {
   ];
 
   console.log(rows.map((row) => getRow(row[0], row[1])).join(""));
-}
-
-function getReportsConfiguration(prefix: string) {
-  return {
-    formats: { json: true, html: true, csv: true },
-    name: prefix + "-audit",
-    directory: "benchmark-output",
-    // Test against mobile to throttle connection
-    formFactor: "mobile",
-  };
 }
