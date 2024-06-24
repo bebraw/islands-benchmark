@@ -16,12 +16,12 @@ After that you should be able to access `localhost:3000` and the `/api/posts` pa
 
 TypeScript is used for the edge code (CloudFlare workers) and the setup has been derived from `wrangler init`.
 
-## Playwright + Lighthouse
+## Lighthouse
 
 To generate Lighthouse results, run the following:
 
 ```
-npm run playwright
+npm run lighthouse
 ```
 
 You can see the summaries in the output (FCP in ms) as a CSV to copy to `main.tex`.
