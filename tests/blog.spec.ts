@@ -28,7 +28,7 @@ test.afterAll(() => {
 // The idea is to run similar test cases at the same time to avoid
 // weirdness related to connectivity as connection speed may vary.
 function testSuites(type: string, prefix: string, names: string[]) {
-  range(5).forEach((i) =>
+  range(amountOfRuns).forEach((i) =>
     names.forEach((name: string) =>
       test(prefix + " - " + name + " audit blog index #" + (i + 1), () =>
         auditBlogPage(type, prefix, name, i + 1),

@@ -1,6 +1,7 @@
 import { test } from "@playwright/test";
 import { playAudit } from "playwright-lighthouse";
 import playwright from "playwright";
+// import { startFlow } from "lighthouse";
 import { readAudits } from "./read-audits.ts";
 import { printCSV } from "./print-csv.ts";
 import { average, median, range } from "./math.ts";
@@ -26,7 +27,7 @@ test.afterAll(() => {
 // The idea is to run similar test cases at the same time to avoid
 // weirdness related to connectivity as connection speed may vary.
 function testSuites(type: string, prefix: string, names: string[]) {
-  range(5).forEach((i) =>
+  range(amountOfRuns).forEach((i) =>
     names.forEach((name: string) =>
       test(prefix + " - " + name + " audit ecommerce #" + (i + 1), () =>
         auditEcommercePage(type, prefix, name, i + 1),
@@ -41,6 +42,7 @@ async function auditEcommercePage(
   name: string,
   n: number,
 ) {
+  // TODO: Rewrite this using startFlow
   const port = 9222;
   const browser = await playwright["chromium"].launch({
     args: [`--remote-debugging-port=${port}`],
@@ -48,6 +50,9 @@ async function auditEcommercePage(
   const url = `${prefix}/${name}`;
   const page = await browser.newPage();
   await page.goto(url);
+
+  // TODO: This needs a puppeteer instance!
+  // const flow = await startFlow(page);
 
   // Enter letter p to the search field and click "search"
   page.locator('*[name="search"]').fill("p");
