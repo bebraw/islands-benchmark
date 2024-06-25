@@ -2,7 +2,6 @@ import { writeFileSync } from "fs";
 import puppeteer from "puppeteer";
 import { startFlow } from "lighthouse";
 import { readAudits } from "./read-audits.ts";
-import { printCSV } from "./print-csv.ts";
 import { average, median, range } from "./math.ts";
 
 // TODO: Run lighthouse tests through a separate process
@@ -11,11 +10,10 @@ const amountOfRuns = 1;
 
 async function main() {
   await testSuites("cf", "https://comments-benchmark.pages.dev", [
-    "ssr-ecommerce",
-    // "islands-ecommerce",
+    // "ssr-ecommerce",
+    "islands-ecommerce",
   ]);
 
-  printCSV(amountOfRuns);
   printTable();
 }
 
@@ -70,11 +68,12 @@ async function auditEcommercePage(
   await page.type('*[name="search"]', "p");
   await page.click('*[type="submit"]');
 
-  // TODO: Check how this would work with the islands solution as that would only update content
-  await page.waitForNavigation();
-
-  // Islands solution?
-  // await page.waitForSelector('#products')
+  // The page won't refresh for the islands solution so it's better
+  // to wait for navigation then.
+  await Promise.race([
+    page.waitForNavigation(),
+    page.waitForSelector("#products"),
+  ]);
 
   await flow.endTimespan();
 
