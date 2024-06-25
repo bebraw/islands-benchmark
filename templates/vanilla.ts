@@ -39,8 +39,16 @@ function productIndexTemplateWithIsland({
     content: `<script>
     async function fetchProducts(event) {
       const search = event.target.elements.search.value;
+
+      // Update browser query
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set("search", search);
+      window.location.search = searchParams.toString();
+
+      // Fetch products
       const products = await (await fetch('/api/get-products?format=html&search=' + search)).text();
 
+      // Update HTML
       document.getElementById('products').innerHTML = products;
     }
   </script>
