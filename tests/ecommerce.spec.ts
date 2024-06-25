@@ -80,19 +80,26 @@ async function auditEcommercePage(
   // Phase 3 - Analyze the new state.
   await flow.snapshot();
 
-  // Phase 4 - Save results as JSON.
+  // Phase 4 - Write a flow report.
+  // TODO: Make sure output directory exists before writing
+  writeFileSync(
+    `report-output/${type}-${name}-${n}-report.html`,
+    await flow.generateReport(),
+  );
+
+  // Phase 5 - Save results as JSON.
+  // TODO: Make sure output directory exists before writing
   writeFileSync(
     `benchmark-output/${type}-${name}-${n}-audit.json`,
     JSON.stringify(await flow.createFlowResult(), null, 2),
   );
 
-  // Phase 5 - Clean up
+  // Phase 6 - Clean up
   await browser.close();
 }
 
 // Utils
 
-// TODO: Compare CLS (cumulative-layout-shift) instead?
 // TODO: This code could be condensed a lot
 function printTable() {
   // Check the output JSON files for possible audits
