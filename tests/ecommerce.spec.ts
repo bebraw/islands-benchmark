@@ -5,12 +5,14 @@ import { readAudits } from "./read-audits.ts";
 import { printCSV } from "./print-csv.ts";
 import { average, median, range } from "./math.ts";
 
-const amountOfRuns = 5;
+// TODO: Run lighthouse tests through a separate process
+const amountOfRuns = 1;
+// const amountOfRuns = 5;
 
 async function main() {
   await testSuites("cf", "https://comments-benchmark.pages.dev", [
     "ssr-ecommerce",
-    "islands-ecommerce",
+    // "islands-ecommerce",
   ]);
 
   printCSV(amountOfRuns);
@@ -65,24 +67,14 @@ async function auditEcommercePage(
   await flow.startTimespan();
 
   // Enter letter p to the search field and press "search"
-  const searchElement = await page.waitForSelector(`*[name="search"]`);
+  await page.type('*[name="search"]', "p");
+  await page.click('*[type="submit"]');
 
-  if (!searchElement) {
-    throw new Error("Failed to find search element");
-  }
+  // TODO: Check how this would work with the islands solution as that would only update content
+  await page.waitForNavigation();
 
-  await searchElement.type("p");
-
-  const submitElement = await page.waitForSelector(`*[type="submit"]`);
-
-  if (!submitElement) {
-    throw new Error("Failed to find submit element");
-  }
-
-  await submitElement.press("Enter");
-
-  // Ensure search results have rendered
-  await page.waitForSelector(`#products`);
+  // Islands solution?
+  // await page.waitForSelector('#products')
 
   await flow.endTimespan();
 
