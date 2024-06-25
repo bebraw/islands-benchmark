@@ -29,4 +29,4 @@ function loremIpsum(start: number, amount: number) {
     .join(" ");
 }
 
-export { getPosts };
+export { getPosts, loremIpsum };

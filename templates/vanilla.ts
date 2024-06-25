@@ -1,3 +1,4 @@
+import { loremIpsum } from "../content.ts";
 import type { Comment, Post, Product } from "../types.ts";
 
 function productIndexTemplate({
@@ -65,7 +66,8 @@ function productsTemplate(products: Product[]) {
     .map(
       ({ id, title, price }) => `<li>${title} - (id: ${id}), ${price} €</li>`,
     )
-    .join("")}</ul>`;
+    .join("")}</ul>
+    <div>${loremIpsum(0, 10000)}</div>`;
 }
 
 function postIndexTemplate({
