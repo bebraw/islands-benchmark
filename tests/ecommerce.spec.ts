@@ -14,6 +14,8 @@ async function main() {
   // Prepare an execution cluster
   const cluster = await Cluster.launch({
     concurrency: Cluster.CONCURRENCY_CONTEXT,
+    // It is important to limit concurrency to one as otherwise
+    // results don't seem to make sense for some reason (cache?).
     maxConcurrency: 1,
   });
 
@@ -81,7 +83,9 @@ async function ecommerceTest({
   // Enter letter p to the search field and press "search"
   await page.type('*[name="search"]', "p");
 
-  await flow.startNavigation();
+  await flow.startTimespan();
+  // await flow.startNavigation();
+
   await page.click('*[type="submit"]');
 
   // The page won't refresh for the islands solution so it's better
@@ -91,7 +95,8 @@ async function ecommerceTest({
     page.waitForSelector("#products"),
   ]);
 
-  await flow.endNavigation();
+  await flow.endTimespan();
+  // await flow.endNavigation();
 
   // Phase 3 - Write a flow report.
   // TODO: Make sure output directory exists before writing
