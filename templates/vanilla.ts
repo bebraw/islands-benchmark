@@ -63,8 +63,7 @@ function productIndexTemplateWithIsland({
 function productsTemplate(products: Product[]) {
   return `<ul>${products
     .map(
-      ({ id, title, price }) =>
-        `<li><a href="./${id}">${title}</a><p>${price} €</p></li>`,
+      ({ id, title, price }) => `<li>${title} - (id: ${id}), ${price} €</li>`,
     )
     .join("")}</ul>`;
 }
