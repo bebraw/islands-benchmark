@@ -18,7 +18,7 @@ function readAudits(pageType: string, auditType: string) {
         .map(
           // @ts-expect-error This is fine for now. Maybe
           // the exact type is available through Lighthouse
-          (s) => s.lhr.audits[auditType]?.numericValue,
+          (s) => s.lhr.audits[auditType]?.numericValue || 0,
         )
         .reduce((a: number, b: number) => a + b, 0);
     }
