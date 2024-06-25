@@ -92,6 +92,7 @@ async function auditEcommercePage(
 
 // Utils
 
+// TODO: Compare CLS (cumulative-layout-shift) instead?
 // TODO: This code could be condensed a lot
 function printTable() {
   // Check the output JSON files for possible audits
