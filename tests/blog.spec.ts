@@ -12,16 +12,13 @@ const thresholds = {
   seo: 50,
   pwa: 10,
 };
+const testPrefix = "cf";
 const amountOfRuns = 5;
+const testTypes = ["vanilla", "disqus", "lazy-disqus", "islands"];
 
-testSuites("cf", "https://comments-benchmark.pages.dev", [
-  "vanilla",
-  "disqus",
-  "lazy-disqus",
-  "islands",
-]);
+testSuites(testPrefix, "https://comments-benchmark.pages.dev", testTypes);
 test.afterAll(() => {
-  printCSV(amountOfRuns);
+  printCSV(amountOfRuns, testPrefix, testTypes);
   printTable();
 });
 

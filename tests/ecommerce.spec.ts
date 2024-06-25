@@ -1,54 +1,69 @@
 import { writeFileSync } from "fs";
-import puppeteer from "puppeteer";
+import { Cluster } from "puppeteer-cluster";
+import { type Page } from "puppeteer";
 import { startFlow } from "lighthouse";
+import { printCSV } from "./print-csv.ts";
 import { readAudits } from "./read-audits.ts";
 import { average, median, range } from "./math.ts";
 
-// TODO: Run lighthouse tests through a separate process
-const amountOfRuns = 1;
-// const amountOfRuns = 5;
-
 async function main() {
-  await testSuites("cf", "https://comments-benchmark.pages.dev", [
-    // "ssr-ecommerce",
-    "islands-ecommerce",
-  ]);
+  const amountOfRuns = 5;
+  const testPrefix = "cf";
+  const testTypes = ["ssr-ecommerce", "islands-ecommerce"];
 
+  // Prepare an execution cluster
+  const cluster = await Cluster.launch({
+    concurrency: Cluster.CONCURRENCY_CONTEXT,
+    maxConcurrency: 1,
+  });
+
+  // Add a task
+  cluster.task(ecommerceTest);
+
+  // Execute test permutations
+  getTests(
+    amountOfRuns,
+    testPrefix,
+    "https://comments-benchmark.pages.dev",
+    testTypes,
+  ).forEach((t) => cluster.queue(t));
+
+  // Shut down
+  await cluster.idle();
+  await cluster.close();
+
+  // Finish
+  printCSV(amountOfRuns, testPrefix, testTypes);
   printTable();
 }
 
 main();
 
-// The idea is to run similar test cases at the same time to avoid
-// weirdness related to connectivity as connection speed may vary.
-function testSuites(type: string, prefix: string, names: string[]) {
-  return Promise.all(
-    range(amountOfRuns).flatMap((i) =>
-      names.map((name: string) =>
-        test(prefix + " - " + name + " audit ecommerce #" + (i + 1), () =>
-          auditEcommercePage(type, prefix, name, i + 1),
-        ),
-      ),
-    ),
+// Generate test permutations
+function getTests(
+  amountOfRuns: number,
+  type: string,
+  prefix: string,
+  names: string[],
+) {
+  return range(amountOfRuns).flatMap((i) =>
+    names.map((name: string) => ({ type, prefix, name, n: i + 1 })),
   );
 }
 
-function test(name: string, fn: () => void) {
-  console.log(`Running test: ${name}`);
-
-  return fn();
-}
-
 // Adapted from https://github.com/GoogleChrome/lighthouse/blob/main/docs/user-flows.md
-async function auditEcommercePage(
-  type: string,
-  prefix: string,
-  name: string,
-  n: number,
-) {
+async function ecommerceTest({
+  page,
+  data,
+}: {
+  page: Page;
+  data: { type: string; prefix: string; name: string; n: number };
+}) {
+  const { type, prefix, name, n } = data;
   const url = `${prefix}/${name}`;
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+
+  console.log("Testing", url, "run", n);
+
   const flow = await startFlow(page, {
     config: {
       extends: "lighthouse:default",
@@ -93,9 +108,6 @@ async function auditEcommercePage(
     `benchmark-output/${type}-${name}-${n}-audit.json`,
     JSON.stringify(await flow.createFlowResult(), null, 2),
   );
-
-  // Phase 6 - Clean up
-  await browser.close();
 }
 
 // Utils
