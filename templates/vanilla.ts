@@ -40,10 +40,10 @@ function productIndexTemplateWithIsland({
     async function fetchProducts(event) {
       const search = event.target.elements.search.value;
 
-      // Update browser query
-      const searchParams = new URLSearchParams(window.location.search);
-      searchParams.set("search", search);
-      window.location.search = searchParams.toString();
+      // Update browser query without a refresh
+      const url = new URL(window.location);
+      url.searchParams.set('search', search);
+      window.history.pushState({}, '', url);
 
       // Fetch products
       const products = await (await fetch('/api/get-products?format=html&search=' + search)).text();
