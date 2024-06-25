@@ -14,7 +14,7 @@ async function main() {
   // Prepare an execution cluster
   const cluster = await Cluster.launch({
     concurrency: Cluster.CONCURRENCY_CONTEXT,
-    maxConcurrency: 1,
+    maxConcurrency: 4,
   });
 
   // Add a task
@@ -77,11 +77,13 @@ async function ecommerceTest({
   await flow.navigate(url);
 
   // Phase 2 - Interact with the page and submit the search form.
-  await flow.startTimespan();
 
   // Enter letter p to the search field and press "search"
   await page.type('*[name="search"]', "p");
+
+  await flow.startNavigation();
   await page.click('*[type="submit"]');
+  await flow.endNavigation();
 
   // The page won't refresh for the islands solution so it's better
   // to wait for navigation then.
@@ -90,19 +92,14 @@ async function ecommerceTest({
     page.waitForSelector("#products"),
   ]);
 
-  await flow.endTimespan();
-
-  // Phase 3 - Analyze the new state.
-  await flow.snapshot();
-
-  // Phase 4 - Write a flow report.
+  // Phase 3 - Write a flow report.
   // TODO: Make sure output directory exists before writing
   writeFileSync(
     `report-output/${type}-${name}-${n}-report.html`,
     await flow.generateReport(),
   );
 
-  // Phase 5 - Save results as JSON.
+  // Phase 4 - Save results as JSON.
   // TODO: Make sure output directory exists before writing
   writeFileSync(
     `benchmark-output/${type}-${name}-${n}-audit.json`,
