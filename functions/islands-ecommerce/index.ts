@@ -1,7 +1,6 @@
 import { productIndexTemplateWithIsland } from "../../templates/vanilla.ts";
 import type { Product } from "../../types.ts";
 
-// TODO: Islandify search logic
 export async function onRequest({ request: { url } }: { request: Request }) {
   const { searchParams } = new URL(url);
   const search = searchParams.get("search") || "";
