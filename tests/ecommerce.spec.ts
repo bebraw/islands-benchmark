@@ -83,7 +83,6 @@ async function ecommerceTest({
 
   await flow.startNavigation();
   await page.click('*[type="submit"]');
-  await flow.endNavigation();
 
   // The page won't refresh for the islands solution so it's better
   // to wait for navigation then.
@@ -91,6 +90,8 @@ async function ecommerceTest({
     page.waitForNavigation(),
     page.waitForSelector("#products"),
   ]);
+
+  await flow.endNavigation();
 
   // Phase 3 - Write a flow report.
   // TODO: Make sure output directory exists before writing
