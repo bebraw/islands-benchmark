@@ -14,7 +14,7 @@ async function main() {
   // Prepare an execution cluster
   const cluster = await Cluster.launch({
     concurrency: Cluster.CONCURRENCY_CONTEXT,
-    maxConcurrency: 4,
+    maxConcurrency: 1,
   });
 
   // Add a task
