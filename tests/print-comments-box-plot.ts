@@ -97,6 +97,17 @@ function printBoxPlot() {
       )
       .join(""),
   );
+  console.log("\nSRT (min, max, p25, p75, median, average)");
+  console.log(
+    rows
+      .map((row) =>
+        template(
+          // @ts-expect-error This is fine for now
+          calculatedRows[row[1]]["server-response-time"],
+        ),
+      )
+      .join(""),
+  );
 }
 
 function min(values: number[]) {
