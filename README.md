@@ -21,7 +21,7 @@ TypeScript is used for the edge code (CloudFlare workers) and the setup has been
 To generate Lighthouse results, run the following:
 
 ```
-npm run lighthouse
+npm run lighthouse:<test type>
 ```
 
 You can see the summaries in the output (FCP in ms) as a CSV to copy to `main.tex`.
