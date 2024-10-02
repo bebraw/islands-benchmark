@@ -51,6 +51,10 @@ npm run autocannon:ssg
 
 To run the whole suite that emits a CSV suitable for `main.tex`, use `npm run autocannon` and copy the output.
 
+## Printing box plots
+
+To get easy to use prints for LaTeX box plots, run any of the `print:` prefixed npm commands.
+
 ## Tools
 
 * https://github.com/Polymer/tachometer

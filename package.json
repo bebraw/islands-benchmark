@@ -11,8 +11,8 @@
     "autocannon": "node ./run-autocannon.js",
     "autocannon:islands": "autocannon -d=30 https://comments-benchmark.pages.dev/islands/10",
     "autocannon:local:islands": "autocannon -d=30 http://127.0.0.1:8788/islands/10",
-    "comments:print-box-plot": "node --loader ts-node/esm ./print-comments-box-plot.ts",
-    "ecommerce:print-box-plot": "node --loader ts-node/esm ./print-ecommerce-box-plot.ts",
+    "print:comments-box-plot": "node --loader ts-node/esm ./print-comments-box-plot.ts",
+    "print:ecommerce-box-plot": "node --loader ts-node/esm ./print-ecommerce-box-plot.ts",
     "lighthouse": "playwright test",
     "lighthouse:blog": "playwright test tests/blog.spec.ts",
     "lighthouse:ecommerce": "node --loader ts-node/esm ./tests/ecommerce.spec.ts"
