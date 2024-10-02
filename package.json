@@ -24,26 +24,25 @@
     "mkdirp": "^3.0.1",
     "nanoid": "^5.0.7",
     "rmfr": "^2.0.0",
-    "wrangler": "^3.57.0"
+    "wrangler": "^3.79.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240512.0",
-    "@playwright/test": "^1.44.0",
-    "@types/mkdirp": "^1.0.2",
-    "@types/node": "^20.12.12",
+    "@cloudflare/workers-types": "^4.20240925.0",
+    "@playwright/test": "^1.47.2",
+    "@types/node": "^22.7.4",
     "@types/rmfr": "^2.0.5",
     "autocannon": "^7.15.0",
-    "glob": "^10.3.15",
-    "lighthouse": "^12.0.0",
-    "playwright": "^1.44.0",
+    "glob": "^11.0.0",
+    "lighthouse": "^12.2.1",
+    "playwright": "^1.47.2",
     "playwright-lighthouse": "^4.0.0",
-    "prettier": "^3.2.5",
-    "puppeteer": "^22.12.0",
+    "prettier": "^3.3.3",
+    "puppeteer": "^23.4.1",
     "puppeteer-cluster": "^0.24.0",
     "serve": "^14.2.3",
     "ts-node": "^10.9.2",
-    "tslib": "^2.6.2",
-    "tsx": "^4.10.4",
-    "typescript": "^5.4.5"
+    "tslib": "^2.7.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
   }
 }

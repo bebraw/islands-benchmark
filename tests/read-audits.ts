@@ -1,8 +1,8 @@
 import fs from "fs";
-import { glob } from "glob";
+import { globSync } from "glob";
 
 function readAudits(pageType: string, auditType: string) {
-  const files = glob.sync("benchmark-output/" + pageType + "*-audit.json");
+  const files = globSync("benchmark-output/" + pageType + "*-audit.json");
 
   const audits = files
     .map((f) => fs.readFileSync(f, { encoding: "utf-8" }))
