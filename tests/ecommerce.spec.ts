@@ -115,4 +115,6 @@ async function ecommerceTest({
     `benchmark-output/${name}-${type}-${n}-audit.json`,
     JSON.stringify(await flow.createFlowResult(), null, 2),
   );
+
+  console.log("Wrote reports for run", n);
 }
