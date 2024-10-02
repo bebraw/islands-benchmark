@@ -9,8 +9,20 @@ function printSizes() {
     diagnosticField,
   );
   const cfIslandsSizes = readAuditDiagnostics("cf-islands-", diagnosticField);
+  const rows = [
+    ["Islands", average(cfIslandsSizes)],
+    ["Lazy Disqus", average(cfLazyDisqusSizes)],
+    ["Disqus", average(cfDisqusSizes)],
+    ["Vanilla", average(cfVanillaSizes)],
+  ];
 
-  console.log(cfVanillaSizes, cfDisqusSizes, cfLazyDisqusSizes, cfIslandsSizes);
+  console.log(rows.map((r) => `${r[0]} & ${r[1]} \\\\`).join("\n"));
+}
+
+function average(values: number[]) {
+  const sum = values.reduce((a, b) => a + b, 0);
+
+  return sum / values.length;
 }
 
 export { printSizes };
