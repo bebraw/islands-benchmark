@@ -14,6 +14,7 @@
     "print:comments-box-plot": "node --loader ts-node/esm ./scripts/print-comments-box-plot.ts",
     "print:comments-sizes": "node --loader ts-node/esm ./scripts/print-comments-sizes.ts",
     "print:ecommerce-box-plot": "node --loader ts-node/esm ./scripts/print-ecommerce-box-plot.ts",
+    "print:ecommerce-sizes": "node --loader ts-node/esm ./scripts/print-ecommerce-sizes.ts",
     "lighthouse:blog": "playwright test tests/blog.spec.ts",
     "lighthouse:ecommerce": "node --loader ts-node/esm ./tests/ecommerce.spec.ts"
   },

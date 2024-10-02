@@ -39,20 +39,16 @@ function readAuditDiagnostics(pageType: string, diagnosticField: string) {
       return a.audits.diagnostics.details.items[0][diagnosticField];
     }
 
-    console.log(Object.keys(a), a.name);
-
-    // TODO
-    /*
     if (a.steps) {
       return a.steps
         .map(
           // @ts-expect-error This is fine for now. Maybe
           // the exact type is available through Lighthouse
-          (s) => s.lhr.audits[auditType]?.numericValue || 0,
+          (s) =>
+            s.lhr.audits.diagnostics?.details.items[0][diagnosticField] || 0,
         )
         .reduce((a: number, b: number) => a + b, 0);
     }
-    */
 
     throw new Error("Missing audits or steps property");
   });
