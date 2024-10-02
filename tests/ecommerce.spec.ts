@@ -1,13 +1,14 @@
 // Puppeteer has to be used for these tests as flow testing doesn't seem possible
 // with playwright yet!
-import { writeFileSync } from "fs";
+import fs from "fs";
+import { mkdirp } from "mkdirp";
 import { Cluster } from "puppeteer-cluster";
 import { type Page } from "puppeteer";
 import { startFlow } from "lighthouse";
 // import { printCSV } from "./print-csv.ts";
 import { range } from "./math.ts";
 
-// TODO: Consider crashing if any selector times out
+// TODO: Consider crashing if any selector times out or if test throws
 async function main() {
   const amountOfRuns = 5;
   const testPrefix = "cf";
@@ -102,19 +103,23 @@ async function ecommerceTest({
 
   console.log("Writing report for run", n);
 
-  // Phase 3 - Write a flow report.
-  // TODO: Make sure output directory exists before writing
-  writeFileSync(
-    `report-output/${name}-${type}-${n}-report.html`,
-    await flow.generateReport(),
-  );
+  try {
+    // Phase 3 - Write a flow report.
+    await mkdirp("report-output");
+    await fs.promises.writeFile(
+      `report-output/${name}-${type}-${n}-report.html`,
+      await flow.generateReport(),
+    );
 
-  // Phase 4 - Save results as JSON.
-  // TODO: Make sure output directory exists before writing
-  writeFileSync(
-    `benchmark-output/${name}-${type}-${n}-audit.json`,
-    JSON.stringify(await flow.createFlowResult(), null, 2),
-  );
+    // Phase 4 - Save results as JSON.
+    await mkdirp("benchmark-output");
+    await fs.promises.writeFile(
+      `benchmark-output/${name}-${type}-${n}-audit.json`,
+      JSON.stringify(await flow.createFlowResult(), null, 2),
+    );
 
-  console.log("Wrote reports for run", n);
+    console.log("Wrote reports for run", n);
+  } catch (error) {
+    console.error(error);
+  }
 }

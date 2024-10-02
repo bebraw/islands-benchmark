@@ -21,7 +21,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "mkdirp": "^3.0.1",
     "nanoid": "^5.0.7",
     "rmfr": "^2.0.0",
     "wrangler": "^3.79.0"
@@ -34,6 +33,7 @@
     "autocannon": "^7.15.0",
     "glob": "^11.0.0",
     "lighthouse": "^12.2.1",
+    "mkdirp": "^3.0.1",
     "playwright": "^1.47.2",
     "playwright-lighthouse": "^4.0.0",
     "prettier": "^3.3.3",
