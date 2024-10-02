@@ -7,6 +7,7 @@ import { startFlow } from "lighthouse";
 // import { printCSV } from "./print-csv.ts";
 import { range } from "./math.ts";
 
+// TODO: Consider crashing if any selector times out
 async function main() {
   const amountOfRuns = 5;
   const testPrefix = "cf";
