@@ -26,6 +26,8 @@ npm run lighthouse
 
 You can see the summaries in the output (FCP in ms) as a CSV to copy to `main.tex`.
 
+To make sure you have the latest browsers installed for testing, use `npx playwright install`.
+
 ## Creating KV stores
 
 Use the following commands to create KV stores at Cloudflare:

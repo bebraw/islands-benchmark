@@ -41,6 +41,8 @@ async function auditBlogPage(
   n: number,
 ) {
   const port = 9222;
+  // TODO: This is the spot where playwright can be run against different browsers
+  // The available options are chromium, firefox, and webkit (Safari)
   const browser = await playwright["chromium"].launch({
     args: [`--remote-debugging-port=${port}`],
   });
