@@ -83,9 +83,7 @@ function printBoxPlot() {
     },
     ] coordinates {};`;
 
-  console.log(
-    "\nFCP (min, max, p25, p75, median, average), SRT (min, max, p25, p75, median, average)",
-  );
+  console.log("\nFCP (min, max, p25, p75, median, average)");
   console.log(
     rows
       .map((row) =>
