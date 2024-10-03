@@ -83,20 +83,25 @@ function printBoxPlot() {
     },
     ] coordinates {};`;
 
-  console.log("\nFCP (min, max, p25, p75, median, average)");
+  // Order: FCP, SRT, FCP, SRT, ...
+  // console.log("\nFCP (min, max, p25, p75, median, average)");
   console.log(
     rows
-      .map((row) =>
-        template(
-          // This is where you can adjust what to print (FCP or SRT)
-          // @ts-expect-error This is fine for now
-          calculatedRows[row[1]]["first-contentful-paint"],
-        ),
+      .map(
+        (row) =>
+          template(
+            // @ts-expect-error This is fine for now
+            calculatedRows[row[1]]["first-contentful-paint"],
+          ) +
+          template(
+            // @ts-expect-error This is fine for now
+            calculatedRows[row[1]]["server-response-time"],
+          ),
       )
       .join(""),
   );
-  console.log("\nSRT (min, max, p25, p75, median, average)");
-  console.log(
+  // console.log("\nSRT (min, max, p25, p75, median, average)");
+  /*console.log(
     rows
       .map((row) =>
         template(
@@ -105,7 +110,7 @@ function printBoxPlot() {
         ),
       )
       .join(""),
-  );
+  );*/
 }
 
 function min(values: number[]) {
