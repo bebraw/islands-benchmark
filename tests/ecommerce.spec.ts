@@ -87,9 +87,11 @@ async function ecommerceTest({
   await page.type("input[name=search]", "p");
 
   await flow.startTimespan();
-  // await flow.startNavigation();
 
+  // TODO: Use startNavigation for the SSR case
+  // await flow.startNavigation();
   await page.click('*[type="submit"]');
+  // await flow.endNavigation();
 
   // The page won't refresh for the islands solution so it's better
   // to wait for navigation then.
@@ -99,7 +101,6 @@ async function ecommerceTest({
   ]);
 
   await flow.endTimespan();
-  // await flow.endNavigation();
 
   console.log("Writing report for run", n);
 
