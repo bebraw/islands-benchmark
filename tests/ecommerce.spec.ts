@@ -6,10 +6,17 @@ import puppeteer, { type Page } from "puppeteer";
 import { startFlow } from "lighthouse";
 import { range } from "./math.ts";
 
+type TestType = { name: string; mode: "timespan" | "navigation" };
+
 async function main() {
   const amountOfRuns = 5;
   const testPrefix = "cf";
-  const testTypes = ["ecommerce-ssr", "ecommerce-islands"];
+  const testTypes: TestType[] = [
+    // Because of Lighthouse and differing logic of ssr and islands implemenations,
+    // different test modes have to be used to capture navigation.
+    { name: "ecommerce-ssr", mode: "navigation" },
+    { name: "ecommerce-islands", mode: "timespan" },
+  ];
 
   runTests(
     amountOfRuns,
@@ -25,11 +32,17 @@ async function runTests(
   amountOfRuns: number,
   type: string,
   prefix: string,
-  names: string[],
+  configurations: TestType[],
 ) {
   // Generate test permutations to run
   const testConfigurations = range(amountOfRuns).flatMap((i) =>
-    names.map((name: string) => ({ type, prefix, name, n: i + 1 })),
+    configurations.map(({ name, mode }) => ({
+      type,
+      prefix,
+      name,
+      mode,
+      n: i + 1,
+    })),
   );
 
   const browser = await puppeteer.launch();
@@ -53,9 +66,15 @@ async function ecommerceTest({
   configuration,
 }: {
   page: Page;
-  configuration: { type: string; prefix: string; name: string; n: number };
+  configuration: {
+    type: string;
+    prefix: string;
+    name: string;
+    n: number;
+    mode: TestType["mode"];
+  };
 }) {
-  const { type, prefix, name, n } = configuration;
+  const { type, prefix, name, mode, n } = configuration;
   const url = `${prefix}/${name}`;
 
   console.log("Testing", url, "run", n);
@@ -77,23 +96,25 @@ async function ecommerceTest({
   // Enter letter p to the search field and press "search"
   await page.type("input[name=search]", "p");
 
-  await flow.startTimespan();
+  if (mode === "timespan") {
+    await flow.startTimespan();
+  } else if (mode === "navigation") {
+    await flow.startNavigation();
+  }
 
-  // TODO: Use startNavigation for the SSR case
-  // await flow.startNavigation();
-  await page.click('*[type="submit"]');
-  // await flow.endNavigation();
+  await page.click("input[type=submit]");
 
-  // The page won't refresh for the islands solution so it's better
-  // to wait for navigation then.
-  await Promise.race([
-    page.waitForNavigation(),
-    page.waitForSelector("#products"),
-  ]);
+  if (mode === "timespan") {
+    page.waitForSelector("#products");
 
-  await flow.endTimespan();
+    await flow.endTimespan();
+  } else if (mode === "navigation") {
+    page.waitForNavigation();
 
-  console.log("Writing report for run", n);
+    await flow.endNavigation();
+  }
+
+  console.log("Writing reports for run", n);
 
   // Phase 3 - Write a flow report.
   await mkdirp("report-output");
