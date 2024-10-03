@@ -11,7 +11,7 @@ export async function onRequest({ request: { url } }: { request: Request }) {
 
   return new Response(
     productIndexTemplate({
-      base: "/ssr-ecommerce/",
+      base: "/ecommerce-ssr/",
       title: "Products",
       products,
       search,

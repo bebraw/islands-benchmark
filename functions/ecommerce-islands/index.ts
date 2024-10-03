@@ -11,7 +11,7 @@ export async function onRequest({ request: { url } }: { request: Request }) {
 
   return new Response(
     productIndexTemplateWithIsland({
-      base: "/islands-ecommerce/",
+      base: "/ecommerce-islands/",
       title: "Products",
       products,
       search,
