@@ -54,10 +54,10 @@ function printBoxPlot() {
   });
 
   const rows = [
-    ["CF islands", "cfIslands"],
-    ["CF lazy Disqus", "cfLazyDisqus"],
-    ["CF Disqus", "cfDisqus"],
     ["CF vanilla", "cfVanilla"],
+    ["CF Disqus", "cfDisqus"],
+    ["CF lazy Disqus", "cfLazyDisqus"],
+    ["CF islands", "cfIslands"],
   ];
 
   const template = ({
