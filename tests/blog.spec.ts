@@ -2,6 +2,8 @@ import process from "node:process";
 import { test } from "@playwright/test";
 import { playAudit } from "playwright-lighthouse";
 import playwright from "playwright";
+import desktopConfig from "lighthouse/core/config/lr-desktop-config.js";
+import mobileConfig from "lighthouse/core/config/lr-mobile-config.js";
 import { range } from "./math.ts";
 
 const FORM_FACTOR = process.env.FORM_FACTOR;
@@ -56,16 +58,7 @@ async function auditBlogPage(
     thresholds,
     reports: getReportsConfiguration(type + "-" + name + "-" + n),
     port,
-    config: {
-      extends: "lighthouse:default",
-      settings: {
-        // @ts-ignore This is fine
-        formFactor: FORM_FACTOR,
-        screenEmulation: {
-          disabled: FORM_FACTOR === "desktop",
-        },
-      },
-    },
+    config: FORM_FACTOR === "desktop" ? desktopConfig : mobileConfig,
   });
 
   await browser.close();

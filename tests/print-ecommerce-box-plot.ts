@@ -27,7 +27,7 @@ function printBoxPlot() {
   };
 
   auditTypes.forEach((auditType) => {
-    const testPrefix = "test-output/blog-benchmark/";
+    const testPrefix = "test-output/ecommerce-benchmark/mobile/";
     const ssrFCPs = readAudits(testPrefix + "ecommerce-ssr-cf-", auditType);
     const islandsFCPs = readAudits(
       testPrefix + "ecommerce-islands-cf-",

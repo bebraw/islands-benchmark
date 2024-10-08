@@ -4,9 +4,17 @@ import fs from "fs";
 import { mkdirp } from "mkdirp";
 import puppeteer, { type Page } from "puppeteer";
 import { startFlow } from "lighthouse";
+import desktopConfig from "lighthouse/core/config/lr-desktop-config.js";
+import mobileConfig from "lighthouse/core/config/lr-mobile-config.js";
 import { range } from "./math.ts";
 
 type TestType = { name: string; mode: "timespan" | "navigation" };
+
+const FORM_FACTOR = process.env.FORM_FACTOR;
+
+if (!FORM_FACTOR) {
+  throw new Error("Missing FORM_FACTOR");
+}
 
 async function main() {
   const amountOfRuns = 5;
@@ -80,12 +88,7 @@ async function ecommerceTest({
   console.log("Testing", url, "run", n);
 
   const flow = await startFlow(page, {
-    config: {
-      extends: "lighthouse:default",
-      settings: {
-        formFactor: "mobile",
-      },
-    },
+    config: FORM_FACTOR === "desktop" ? desktopConfig : mobileConfig,
   });
 
   // Phase 1 - Navigate to the page.
@@ -125,7 +128,7 @@ async function ecommerceTest({
   );
 
   // Phase 4 - Save results as JSON.
-  const benchmarkOutputDirectory = "test-output/ecommerce-benchmark";
+  const benchmarkOutputDirectory = `test-output/ecommerce-benchmark/${FORM_FACTOR}`;
   await mkdirp(benchmarkOutputDirectory);
   await fs.promises.writeFile(
     `${benchmarkOutputDirectory}/${name}-${type}-${n}-audit.json`,
