@@ -10,15 +10,31 @@ function printBoxPlot() {
     "server-response-time",
   ];
   const calculatedRows: {
-    cfVanilla: Record<string, CalculatedRow>;
-    cfDisqus: Record<string, CalculatedRow>;
-    cfLazyDisqus: Record<string, CalculatedRow>;
-    cfIslands: Record<string, CalculatedRow>;
+    mobile: {
+      cfVanilla: Record<string, CalculatedRow>;
+      cfDisqus: Record<string, CalculatedRow>;
+      cfLazyDisqus: Record<string, CalculatedRow>;
+      cfIslands: Record<string, CalculatedRow>;
+    };
+    desktop: {
+      cfVanilla: Record<string, CalculatedRow>;
+      cfDisqus: Record<string, CalculatedRow>;
+      cfLazyDisqus: Record<string, CalculatedRow>;
+      cfIslands: Record<string, CalculatedRow>;
+    };
   } = {
-    cfVanilla: {},
-    cfDisqus: {},
-    cfLazyDisqus: {},
-    cfIslands: {},
+    mobile: {
+      cfVanilla: {},
+      cfDisqus: {},
+      cfLazyDisqus: {},
+      cfIslands: {},
+    },
+    desktop: {
+      cfVanilla: {},
+      cfDisqus: {},
+      cfLazyDisqus: {},
+      cfIslands: {},
+    },
   };
   type CalculatedRow = {
     p25?: number;
@@ -30,20 +46,37 @@ function printBoxPlot() {
     max?: number;
   };
 
-  auditTypes.forEach((auditType) => {
-    const testPrefix = "test-output/blog-benchmark/mobile/";
-    const cfVanillaFCPs = readAudits(testPrefix + "cf-vanilla-", auditType);
-    const cfDisqusFCPs = readAudits(testPrefix + "cf-disqus-", auditType);
-    const cfLazyDisqusFCPs = readAudits(
-      testPrefix + "cf-lazy-disqus-",
-      auditType,
-    );
-    const cfIslandsFCPs = readAudits(testPrefix + "cf-islands-", auditType);
+  const testMobilePrefix = "test-output/blog-benchmark/mobile/";
+  const testDesktopPrefix = "test-output/blog-benchmark/desktop/";
 
-    calculatedRows.cfVanilla[auditType] = getValues(cfVanillaFCPs);
-    calculatedRows.cfDisqus[auditType] = getValues(cfDisqusFCPs);
-    calculatedRows.cfLazyDisqus[auditType] = getValues(cfLazyDisqusFCPs);
-    calculatedRows.cfIslands[auditType] = getValues(cfIslandsFCPs);
+  auditTypes.forEach((auditType) => {
+    // TODO: These two could be refactored into a single function to clean up
+    // Mobile
+    calculatedRows.mobile.cfVanilla[auditType] = getValues(
+      readAudits(testMobilePrefix + "cf-vanilla-", auditType),
+    );
+    calculatedRows.mobile.cfDisqus[auditType] = getValues(
+      readAudits(testMobilePrefix + "cf-disqus-", auditType),
+    );
+    calculatedRows.mobile.cfLazyDisqus[auditType] = getValues(
+      readAudits(testMobilePrefix + "cf-lazy-disqus-", auditType),
+    );
+    calculatedRows.mobile.cfIslands[auditType] = getValues(
+      readAudits(testMobilePrefix + "cf-islands-", auditType),
+    );
+    // Desktop
+    calculatedRows.desktop.cfVanilla[auditType] = getValues(
+      readAudits(testDesktopPrefix + "cf-vanilla-", auditType),
+    );
+    calculatedRows.desktop.cfDisqus[auditType] = getValues(
+      readAudits(testDesktopPrefix + "cf-disqus-", auditType),
+    );
+    calculatedRows.desktop.cfLazyDisqus[auditType] = getValues(
+      readAudits(testDesktopPrefix + "cf-lazy-disqus-", auditType),
+    );
+    calculatedRows.desktop.cfIslands[auditType] = getValues(
+      readAudits(testDesktopPrefix + "cf-islands-", auditType),
+    );
 
     function getValues(numbers: number[]) {
       return {
@@ -58,10 +91,14 @@ function printBoxPlot() {
   });
 
   const rows = [
-    ["CF vanilla", "cfVanilla"],
-    ["CF Disqus", "cfDisqus"],
-    ["CF lazy Disqus", "cfLazyDisqus"],
-    ["CF islands", "cfIslands"],
+    ["CF vanilla (mobile)", "mobile", "cfVanilla"],
+    ["CF vanilla (desktop)", "desktop", "cfVanilla"],
+    ["CF Disqus (mobile)", "mobile", "cfDisqus"],
+    ["CF Disqus (desktop)", "desktop", "cfDisqus"],
+    ["CF lazy Disqus (mobile)", "mobile", "cfLazyDisqus"],
+    ["CF lazy Disqus (desktop)", "desktop", "cfLazyDisqus"],
+    ["CF islands (mobile)", "mobile", "cfIslands"],
+    ["CF islands (desktop)", "desktop", "cfIslands"],
   ];
 
   const template = ({
@@ -95,11 +132,11 @@ function printBoxPlot() {
         (row) =>
           template(
             // @ts-expect-error This is fine for now
-            calculatedRows[row[1]]["first-contentful-paint"],
+            calculatedRows[row[1]][row[2]]["first-contentful-paint"],
           ) +
           template(
             // @ts-expect-error This is fine for now
-            calculatedRows[row[1]]["server-response-time"],
+            calculatedRows[row[1]][row[2]]["server-response-time"],
           ),
       )
       .join(""),
