@@ -56,6 +56,16 @@ async function auditBlogPage(
     thresholds,
     reports: getReportsConfiguration(type + "-" + name + "-" + n),
     port,
+    config: {
+      extends: "lighthouse:default",
+      settings: {
+        // @ts-ignore This is fine
+        formFactor: FORM_FACTOR,
+        screenEmulation: {
+          disabled: FORM_FACTOR === "desktop",
+        },
+      },
+    },
   });
 
   await browser.close();
