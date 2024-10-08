@@ -1,7 +1,6 @@
 import { test } from "@playwright/test";
 import { playAudit } from "playwright-lighthouse";
 import playwright from "playwright";
-// import { printCSV } from "./print-csv.ts";
 import { range } from "./math.ts";
 
 const thresholds = {
@@ -16,11 +15,6 @@ const amountOfRuns = 5;
 const testTypes = ["vanilla", "disqus", "lazy-disqus", "islands"];
 
 testSuites(testPrefix, "https://comments-benchmark.pages.dev", testTypes);
-/*
-test.afterAll(() => {
-  printCSV(amountOfRuns, testPrefix, testTypes);
-});
-*/
 
 // The idea is to run similar test cases at the same time to avoid
 // weirdness related to connectivity as connection speed may vary.
