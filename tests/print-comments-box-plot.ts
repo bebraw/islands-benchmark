@@ -31,7 +31,7 @@ function printBoxPlot() {
   };
 
   auditTypes.forEach((auditType) => {
-    const testPrefix = "test-output/blog-benchmark/";
+    const testPrefix = "test-output/blog-benchmark/mobile/";
     const cfVanillaFCPs = readAudits(testPrefix + "cf-vanilla-", auditType);
     const cfDisqusFCPs = readAudits(testPrefix + "cf-disqus-", auditType);
     const cfLazyDisqusFCPs = readAudits(

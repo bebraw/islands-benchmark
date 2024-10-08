@@ -1,7 +1,14 @@
+import process from "node:process";
 import { test } from "@playwright/test";
 import { playAudit } from "playwright-lighthouse";
 import playwright from "playwright";
 import { range } from "./math.ts";
+
+const FORM_FACTOR = process.env.FORM_FACTOR;
+
+if (!FORM_FACTOR) {
+  throw new Error("Missing FORM_FACTOR");
+}
 
 const thresholds = {
   performance: 50,
@@ -59,8 +66,7 @@ function getReportsConfiguration(prefix: string) {
   return {
     formats: { json: true, html: true, csv: true },
     name: prefix + "-audit",
-    directory: "test-output/blog-benchmark",
-    // Test against mobile to throttle connection
-    formFactor: "mobile",
+    directory: `test-output/blog-benchmark/${FORM_FACTOR}`,
+    formFactor: FORM_FACTOR,
   };
 }

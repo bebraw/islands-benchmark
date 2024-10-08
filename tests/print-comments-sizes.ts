@@ -2,7 +2,7 @@ import { readAuditDiagnostics } from "./read-audits.ts";
 
 function printSizes() {
   const diagnosticField = "totalByteWeight";
-  const testPrefix = "test-output/blog-benchmark/";
+  const testPrefix = "test-output/blog-benchmark/mobile/";
   const cfVanillaSizes = readAuditDiagnostics(
     testPrefix + "cf-vanilla-",
     diagnosticField,
