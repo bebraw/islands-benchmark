@@ -27,8 +27,12 @@ function printBoxPlot() {
   };
 
   auditTypes.forEach((auditType) => {
-    const ssrFCPs = readAudits("ecommerce-ssr-cf-", auditType);
-    const islandsFCPs = readAudits("ecommerce-islands-cf-", auditType);
+    const testPrefix = "test-output/blog-benchmark/";
+    const ssrFCPs = readAudits(testPrefix + "ecommerce-ssr-cf-", auditType);
+    const islandsFCPs = readAudits(
+      testPrefix + "ecommerce-islands-cf-",
+      auditType,
+    );
 
     calculatedRows.ssr[auditType] = getValues(ssrFCPs);
     calculatedRows.islands[auditType] = getValues(islandsFCPs);

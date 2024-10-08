@@ -2,7 +2,7 @@ import fs from "fs";
 import { globSync } from "glob";
 
 function readAudits(pageType: string, auditType: string) {
-  const files = globSync("benchmark-output/" + pageType + "*-audit.json");
+  const files = globSync(pageType + "*-audit.json");
 
   const audits = files
     .map((f) => fs.readFileSync(f, { encoding: "utf-8" }))
@@ -28,7 +28,7 @@ function readAudits(pageType: string, auditType: string) {
 }
 
 function readAuditDiagnostics(pageType: string, diagnosticField: string) {
-  const files = globSync("benchmark-output/" + pageType + "*-audit.json");
+  const files = globSync(pageType + "*-audit.json");
 
   const audits = files
     .map((f) => fs.readFileSync(f, { encoding: "utf-8" }))

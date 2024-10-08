@@ -3,7 +3,5 @@ dist
 /test-results/
 /playwright-report/
 /playwright/.cache/
-/benchmark-output/
-/report-output/
+/test-output/
 .wrangler
-

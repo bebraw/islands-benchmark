@@ -2,13 +2,23 @@ import { readAuditDiagnostics } from "./read-audits.ts";
 
 function printSizes() {
   const diagnosticField = "totalByteWeight";
-  const cfVanillaSizes = readAuditDiagnostics("cf-vanilla-", diagnosticField);
-  const cfDisqusSizes = readAuditDiagnostics("cf-disqus-", diagnosticField);
-  const cfLazyDisqusSizes = readAuditDiagnostics(
-    "cf-lazy-disqus-",
+  const testPrefix = "test-output/blog-benchmark/";
+  const cfVanillaSizes = readAuditDiagnostics(
+    testPrefix + "cf-vanilla-",
     diagnosticField,
   );
-  const cfIslandsSizes = readAuditDiagnostics("cf-islands-", diagnosticField);
+  const cfDisqusSizes = readAuditDiagnostics(
+    testPrefix + "cf-disqus-",
+    diagnosticField,
+  );
+  const cfLazyDisqusSizes = readAuditDiagnostics(
+    testPrefix + "cf-lazy-disqus-",
+    diagnosticField,
+  );
+  const cfIslandsSizes = readAuditDiagnostics(
+    testPrefix + "cf-islands-",
+    diagnosticField,
+  );
   const rows = [
     ["Islands", average(cfIslandsSizes)],
     ["Lazy Disqus", average(cfLazyDisqusSizes)],

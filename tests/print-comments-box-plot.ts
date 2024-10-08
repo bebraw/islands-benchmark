@@ -31,10 +31,14 @@ function printBoxPlot() {
   };
 
   auditTypes.forEach((auditType) => {
-    const cfVanillaFCPs = readAudits("cf-vanilla-", auditType);
-    const cfDisqusFCPs = readAudits("cf-disqus-", auditType);
-    const cfLazyDisqusFCPs = readAudits("cf-lazy-disqus-", auditType);
-    const cfIslandsFCPs = readAudits("cf-islands-", auditType);
+    const testPrefix = "test-output/blog-benchmark/";
+    const cfVanillaFCPs = readAudits(testPrefix + "cf-vanilla-", auditType);
+    const cfDisqusFCPs = readAudits(testPrefix + "cf-disqus-", auditType);
+    const cfLazyDisqusFCPs = readAudits(
+      testPrefix + "cf-lazy-disqus-",
+      auditType,
+    );
+    const cfIslandsFCPs = readAudits(testPrefix + "cf-islands-", auditType);
 
     calculatedRows.cfVanilla[auditType] = getValues(cfVanillaFCPs);
     calculatedRows.cfDisqus[auditType] = getValues(cfDisqusFCPs);

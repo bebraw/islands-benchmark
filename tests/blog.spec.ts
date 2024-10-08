@@ -65,7 +65,7 @@ function getReportsConfiguration(prefix: string) {
   return {
     formats: { json: true, html: true, csv: true },
     name: prefix + "-audit",
-    directory: "benchmark-output",
+    directory: "test-output/blog-benchmark",
     // Test against mobile to throttle connection
     formFactor: "mobile",
   };

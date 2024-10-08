@@ -2,9 +2,13 @@ import { readAuditDiagnostics } from "./read-audits.ts";
 
 function printSizes() {
   const diagnosticField = "totalByteWeight";
-  const cfSSRSizes = readAuditDiagnostics("ecommerce-ssr-cf-", diagnosticField);
+  const testPrefix = "test-output/blog-benchmark/";
+  const cfSSRSizes = readAuditDiagnostics(
+    testPrefix + "ecommerce-ssr-cf-",
+    diagnosticField,
+  );
   const cfIslandsSizes = readAuditDiagnostics(
-    "ecommerce-islands-cf-",
+    testPrefix + "ecommerce-islands-cf-",
     diagnosticField,
   );
   const rows = [

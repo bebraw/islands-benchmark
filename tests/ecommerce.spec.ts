@@ -117,16 +117,18 @@ async function ecommerceTest({
   console.log("Writing reports for run", n);
 
   // Phase 3 - Write a flow report.
-  await mkdirp("report-output");
+  const reportOutputDirectory = "test-output/ecommerce-report";
+  await mkdirp(reportOutputDirectory);
   await fs.promises.writeFile(
-    `report-output/${name}-${type}-${n}-report.html`,
+    `${reportOutputDirectory}/${name}-${type}-${n}-report.html`,
     await flow.generateReport(),
   );
 
   // Phase 4 - Save results as JSON.
-  await mkdirp("benchmark-output");
+  const benchmarkOutputDirectory = "test-output/ecommerce-benchmark";
+  await mkdirp(benchmarkOutputDirectory);
   await fs.promises.writeFile(
-    `benchmark-output/${name}-${type}-${n}-audit.json`,
+    `${benchmarkOutputDirectory}/${name}-${type}-${n}-audit.json`,
     JSON.stringify(await flow.createFlowResult(), null, 2),
   );
 
