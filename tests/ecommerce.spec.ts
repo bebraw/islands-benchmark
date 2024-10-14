@@ -55,6 +55,8 @@ async function runTests(
 
   const browser = await puppeteer.launch();
 
+  console.log("Using browser version", await browser.version());
+
   for (const configuration of testConfigurations) {
     const page = await browser.newPage();
 
