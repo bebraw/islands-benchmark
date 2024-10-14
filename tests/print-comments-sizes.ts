@@ -1,7 +1,7 @@
 import { average } from "./math.ts";
 import { readAuditDiagnostics } from "./read-audits.ts";
 
-function printSizes() {
+function printCommentsSizes() {
   const diagnosticField = "totalByteWeight";
   const testPrefix = "test-output/blog-benchmark/mobile/";
   const cfVanillaSizes = readAuditDiagnostics(
@@ -30,4 +30,4 @@ function printSizes() {
   console.log(rows.map((r) => `${r[0]} & ${r[1]} \\\\`).join("\n"));
 }
 
-export { printSizes };
+export { printCommentsSizes };

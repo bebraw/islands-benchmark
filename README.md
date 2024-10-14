@@ -54,7 +54,7 @@ To run the whole suite that emits a CSV suitable for `main.tex`, use `npm run au
 
 ## Printing box plots
 
-To get easy to use prints for LaTeX box plots, run any of the `print:` prefixed npm commands.
+To get easy to use prints for LaTeX box plots, run any of the `print:` prefixed npm commands. Note that you need a recent version of [Deno](https://deno.com/) to run those scripts.
 
 ## Tools
 

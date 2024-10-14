@@ -1,7 +1,7 @@
 import { average } from "./math.ts";
 import { readAuditDiagnostics } from "./read-audits.ts";
 
-function printSizes() {
+function printEcommerceSizes() {
   const diagnosticField = "totalByteWeight";
   const testPrefix = "test-output/ecommerce-benchmark/mobile/";
   const cfSSRSizes = readAuditDiagnostics(
@@ -20,4 +20,4 @@ function printSizes() {
   console.log(rows.map((r) => `${r[0]} & ${r[1]} \\\\`).join("\n"));
 }
 
-export { printSizes };
+export { printEcommerceSizes };

@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "node:fs";
 import { globSync } from "glob";
 
 // TODO: Likely this could replace functions below

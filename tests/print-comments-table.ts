@@ -1,7 +1,7 @@
 import { average, median } from "./math.ts";
 import { readAuditField } from "./read-audits.ts";
 
-function printTable() {
+function printCommentsTable() {
   const testPrefix = "test-output/blog-benchmark/mobile/";
   const variants = [
     {
@@ -65,4 +65,4 @@ function printTable() {
   console.log(rows);
 }
 
-export { printTable };
+export { printCommentsTable };

@@ -2,7 +2,7 @@ import { min, max, p25, p75, median, average } from "./math.ts";
 import { readAudits } from "./read-audits.ts";
 
 // TODO: This code could be condensed a lot
-function printBoxPlot() {
+function printCommentsBoxPlot() {
   // Check the output JSON files for possible audits
   const auditTypes = [
     "first-contentful-paint",
@@ -155,4 +155,4 @@ function printBoxPlot() {
   );*/
 }
 
-export { printBoxPlot };
+export { printCommentsBoxPlot };
