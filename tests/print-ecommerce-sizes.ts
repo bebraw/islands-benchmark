@@ -3,7 +3,7 @@ import { readAuditDiagnostics } from "./read-audits.ts";
 
 function printSizes() {
   const diagnosticField = "totalByteWeight";
-  const testPrefix = "test-output/blog-benchmark/mobile/";
+  const testPrefix = "test-output/ecommerce-benchmark/mobile/";
   const cfSSRSizes = readAuditDiagnostics(
     testPrefix + "ecommerce-ssr-cf-",
     diagnosticField,
