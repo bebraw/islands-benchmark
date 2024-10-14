@@ -1,3 +1,23 @@
+function min(values: number[]) {
+  // @ts-expect-error This is fine
+  return values.toSorted((a, b) => a - b).at(0);
+}
+
+function max(values: number[]) {
+  // @ts-expect-error This is fine
+  return values.toSorted((a, b) => a - b).at(-1);
+}
+
+function p25(values: number[]) {
+  // @ts-expect-error This is fine
+  return values.toSorted((a, b) => a - b)[Math.floor(values.length * 0.25)];
+}
+
+function p75(values: number[]) {
+  // @ts-expect-error This is fine
+  return values.toSorted((a, b) => a - b)[Math.floor(values.length * 0.75)];
+}
+
 function median(values: number[]) {
   const amount = values.length;
 
@@ -22,4 +42,4 @@ function range(n: number, customizer = (i: number) => i) {
   return Array.from(Array(n), (_, i) => customizer(i));
 }
 
-export { median, average, range };
+export { min, max, p25, p75, median, average, range };
