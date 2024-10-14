@@ -7,6 +7,7 @@ import { startFlow } from "lighthouse";
 import desktopConfig from "lighthouse/core/config/lr-desktop-config.js";
 import mobileConfig from "lighthouse/core/config/lr-mobile-config.js";
 import { range } from "./math.ts";
+import { AMOUNT_OF_RUNS } from "./config.ts";
 
 type TestType = { name: string; mode: "timespan" | "navigation" };
 
@@ -17,7 +18,7 @@ if (!FORM_FACTOR) {
 }
 
 async function main() {
-  const amountOfRuns = 5;
+  const amountOfRuns = AMOUNT_OF_RUNS;
   const testPrefix = "cf";
   const testTypes: TestType[] = [
     // Because of Lighthouse and differing logic of ssr and islands implemenations,

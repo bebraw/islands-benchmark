@@ -5,6 +5,7 @@ import playwright from "playwright";
 import desktopConfig from "lighthouse/core/config/lr-desktop-config.js";
 import mobileConfig from "lighthouse/core/config/lr-mobile-config.js";
 import { range } from "./math.ts";
+import { AMOUNT_OF_RUNS } from "./config.ts";
 
 const FORM_FACTOR = process.env.FORM_FACTOR;
 
@@ -20,7 +21,7 @@ const thresholds = {
   pwa: 10,
 };
 const testPrefix = "cf";
-const amountOfRuns = 5;
+const amountOfRuns = AMOUNT_OF_RUNS;
 const testTypes = ["vanilla", "disqus", "lazy-disqus", "islands"];
 
 testSuites(testPrefix, "https://comments-benchmark.pages.dev", testTypes);
