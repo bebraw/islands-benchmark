@@ -1,4 +1,4 @@
-import { average } from "./math.ts";
+import { average, median } from "./math.ts";
 import { readAuditField } from "./read-audits.ts";
 
 function printTable() {
@@ -33,19 +33,30 @@ function printTable() {
     (o) => o.diagnostics?.details.items[0].totalByteWeight,
   ];
   const rows = variants
-    .map(
-      (variant) =>
-        [variant.name]
-          .concat(
-            fieldGetters.map((field) =>
-              average(
-                readAuditField(testPrefix + variant.prefix, field),
-              ).toString(),
-            ),
-          )
-          .join("|") + "\\\\",
-    )
+    .flatMap((variant) => [
+      [
+        processVariant(variant.name + " (average)", variant.prefix, average) +
+          "\\\\",
+        processVariant(variant.name + " (median)", variant.prefix, median) +
+          "\\\\",
+      ],
+    ])
+    .flat()
     .join("\n");
+
+  function processVariant(
+    title: string,
+    prefix: string,
+    fn: (numbers: number[]) => number,
+  ) {
+    return [title]
+      .concat(
+        fieldGetters.map((field) =>
+          fn(readAuditField(testPrefix + prefix, field)).toString(),
+        ),
+      )
+      .join("|");
+  }
 
   console.log("Titles:");
   console.log(titles.join("|") + "\\\\");
