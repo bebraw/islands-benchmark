@@ -1,6 +1,6 @@
-# comments-benchmark
+# islands-benchmark
 
-This repository contains a simple, comment system based benchmark to see how islands architecture running on edge compares against Disqus, a third-party solution.
+This repository contains a series of benchmarks to test islands architecture.
 
 ## Edge server
 
