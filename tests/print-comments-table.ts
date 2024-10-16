@@ -55,11 +55,11 @@ function printCommentsTable() {
           fn(readAuditField(testPrefix + prefix, field)).toString(),
         ),
       )
-      .join("|");
+      .join("&");
   }
 
   console.log("Titles:");
-  console.log(titles.join("|") + "\\\\");
+  console.log(titles.join("&") + "\\\\");
   console.log();
   console.log("Rows:");
   console.log(rows);
