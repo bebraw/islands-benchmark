@@ -1,13 +1,22 @@
+import type { Comment } from "./types.ts";
+import { loremIpsum } from "./content.ts";
+
 async function getComments(db: KVNamespace, id: string) {
+  // Return mock comments anyway to have some weight in the test
+  const ret: Comment[] = range(20).map((i) => ({
+    id: i.toString(),
+    content: loremIpsum(i, 10),
+  }));
+
   try {
     const data = await db.get(id);
 
     if (data) {
-      return JSON.parse(data);
+      return ret.concat(JSON.parse(data));
     }
   } catch (_error) {}
 
-  return [];
+  return ret;
 }
 
 // Adapted and extracted from https://reego.dev/blog/achieving-isr-on-cloudflare-workers
