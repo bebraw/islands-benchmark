@@ -1,8 +1,11 @@
+import process from "node:process";
 import { average, median } from "./math.ts";
 import { readAuditField } from "./read-audits.ts";
 
+const FORM_FACTOR = process.env.FORM_FACTOR;
+
 function printEcommerceTable() {
-  const testPrefix = "test-output/ecommerce-benchmark/mobile/";
+  const testPrefix = `test-output/ecommerce-benchmark/${FORM_FACTOR}/`;
   const variants = [
     {
       name: "SSR",
