@@ -11,6 +11,8 @@
     "autocannon": "node ./run-autocannon.js",
     "autocannon:islands": "autocannon -d=30 https://comments-benchmark.pages.dev/islands/10",
     "autocannon:local:islands": "autocannon -d=30 http://127.0.0.1:8788/islands/10",
+    "print:content-desktop-table": "FORM_FACTOR=desktop npm run print -- content-table",
+    "print:content-mobile-table": "FORM_FACTOR=mobile npm run print -- content-table",
     "print:comments-box-plot": "npm run print -- comments-box-plot",
     "print:comments-sizes": "npm run print -- comments-sizes",
     "print:comments-desktop-table": "FORM_FACTOR=desktop npm run print -- comments-table",

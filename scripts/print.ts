@@ -1,4 +1,5 @@
 import process from "node:process";
+import { printContentTable } from "../tests/print-content-table.ts";
 import { printCommentsBoxPlot } from "../tests/print-comments-box-plot.ts";
 import { printCommentsSizes } from "../tests/print-comments-sizes.ts";
 import { printCommentsTable } from "../tests/print-comments-table.ts";
@@ -9,6 +10,9 @@ import { printEcommerceTable } from "../tests/print-ecommerce-table.ts";
 const target = process.argv.at(-1);
 
 switch (target) {
+  case "content-table":
+    printContentTable();
+    break;
   case "comments-box-plot":
     printCommentsBoxPlot();
     break;
