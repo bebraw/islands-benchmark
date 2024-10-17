@@ -22,6 +22,8 @@
     "print": "deno run -A ./scripts/print.ts",
     "lighthouse:blog:desktop": "FORM_FACTOR=desktop playwright test tests/blog.spec.ts",
     "lighthouse:blog:mobile": "FORM_FACTOR=mobile playwright test tests/blog.spec.ts",
+    "lighthouse:content:desktop": "FORM_FACTOR=desktop playwright test tests/content.spec.ts",
+    "lighthouse:content:mobile": "FORM_FACTOR=mobile playwright test tests/content.spec.ts",
     "lighthouse:ecommerce:desktop": "FORM_FACTOR=desktop node --loader ts-node/esm ./tests/ecommerce.spec.ts",
     "lighthouse:ecommerce:mobile": "FORM_FACTOR=mobile node --loader ts-node/esm ./tests/ecommerce.spec.ts"
   },
