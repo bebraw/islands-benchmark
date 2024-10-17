@@ -29,11 +29,8 @@ function printEcommerceBoxPlot() {
 
   auditTypes.forEach((auditType) => {
     const testPrefix = "test-output/ecommerce-benchmark/mobile/";
-    const ssrFCPs = readAudits(testPrefix + "ecommerce-ssr-cf-", auditType);
-    const islandsFCPs = readAudits(
-      testPrefix + "ecommerce-islands-cf-",
-      auditType,
-    );
+    const ssrFCPs = readAudits(testPrefix + "ssr-cf-", auditType);
+    const islandsFCPs = readAudits(testPrefix + "islands-cf-", auditType);
 
     calculatedRows.ssr[auditType] = getValues(ssrFCPs);
     calculatedRows.islands[auditType] = getValues(islandsFCPs);

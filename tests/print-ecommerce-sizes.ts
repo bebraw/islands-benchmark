@@ -5,11 +5,11 @@ function printEcommerceSizes() {
   const diagnosticField = "totalByteWeight";
   const testPrefix = "test-output/ecommerce-benchmark/mobile/";
   const cfSSRSizes = readAuditDiagnostics(
-    testPrefix + "ecommerce-ssr-cf-",
+    testPrefix + "ssr-cf-",
     diagnosticField,
   );
   const cfIslandsSizes = readAuditDiagnostics(
-    testPrefix + "ecommerce-islands-cf-",
+    testPrefix + "islands-cf-",
     diagnosticField,
   );
   const rows = [

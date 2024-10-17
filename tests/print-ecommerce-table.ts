@@ -9,11 +9,11 @@ function printEcommerceTable() {
   const variants = [
     {
       name: "SSR",
-      prefix: "ecommerce-ssr-cf-",
+      prefix: "ssr-cf-",
     },
     {
       name: "SSR with islands",
-      prefix: "ecommerce-islands-cf-",
+      prefix: "islands-cf-",
     },
   ];
   const titles = ["Variant", "FCP", "LCP", "TBP", "INP", "Bytes transferred"];
