@@ -21,7 +21,8 @@ function socialTemplate({
   return baseTemplate({
     base,
     title,
-    content: `<div style="display: flex; flex-direction: row;">
+    content: `<header>Header goes here</header>
+<div style="display: flex; flex-direction: row;">
   <section style="min-width: 10em;">
     <div>
       <h2>Ad</h2>
@@ -34,7 +35,7 @@ function socialTemplate({
   </section>
   <article>
     <h1>Feed</h1>
-    <p>${articleListTemplate(contentFeed)}</p>
+    <div>${articleListTemplate(contentFeed)}</div>
   </article>
   <section style="min-width: 10em;">
     <div>
@@ -46,7 +47,73 @@ function socialTemplate({
       <div>${trendListTemplate(topTrends)}</div>
     </div>
   </section>
-</div>`,
+</div>
+<footer>Footer goes here</footer>`,
+  });
+}
+
+function socialTemplateWithIslands({
+  base,
+  title,
+}: {
+  base: string;
+  title: string;
+}) {
+  return baseTemplate({
+    base,
+    title,
+    content: `<header>Header goes here</header>
+<div style="display: flex; flex-direction: row;">
+  <section style="min-width: 10em;">
+    <div>
+      <h2>Ad</h2>
+      <div id="ad"></div>
+    </div>
+    <div>
+      <h2>Top articles</h2>
+      <div id="topArticles"></div>
+    </div>
+  </section>
+  <article>
+    <h1>Feed</h1>
+    <div id="contentFeed"></div>
+  </article>
+  <section style="min-width: 10em;">
+    <div>
+      <h2>Who to follow</h2>
+      <div id="whoToFollow"></div>
+    </div>
+    <div>
+      <h2>Top trends</h2>
+      <div id="topTrends"></div>
+    </div>
+  </section>
+</div>
+<footer>Footer goes here</footer>
+<script>
+document.addEventListener("DOMContentLoaded", async (event) => {
+  // TODO: As an optimization, the code below could be parallelized with Promise.all
+  // Fetch the top articles and update the DOM
+  const topArticles = await (await fetch('/social/api/get-top-articles?format=html')).text();
+  document.getElementById('topArticles').innerHTML = topArticles;
+
+  // Fetch the ad and update the DOM
+  const ad = await (await fetch('/social/api/get-ad?format=html')).text();
+  document.getElementById('ad').innerHTML = ad;
+
+  // Fetch the content feed and update the DOM
+  const contentFeed = await (await fetch('/social/api/get-content-feed?format=html')).text();
+  document.getElementById('contentFeed').innerHTML = contentFeed;
+
+  // Fetch who to follow and update the DOM
+  const whoToFollow = await (await fetch('/social/api/get-who-to-follow?format=html')).text();
+  document.getElementById('whoToFollow').innerHTML = whoToFollow;
+
+  // Fetch top trends and update the DOM
+  const topTrends = await (await fetch('/social/api/get-top-trends?format=html')).text();
+  document.getElementById('topTrends').innerHTML = topTrends;
+});
+</script>`,
   });
 }
 
@@ -81,4 +148,5 @@ export {
   trendListTemplate,
   userListTemplate,
   socialTemplate,
+  socialTemplateWithIslands,
 };
