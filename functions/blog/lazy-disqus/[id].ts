@@ -1,4 +1,4 @@
-import { postTemplateWithLazyDisqus } from "../../../templates/vanilla.ts";
+import { postTemplateWithLazyDisqus } from "../../../templates/blog.ts";
 import type { Post } from "../../../types.ts";
 
 export async function onRequest({

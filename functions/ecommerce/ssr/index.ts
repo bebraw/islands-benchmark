@@ -1,4 +1,4 @@
-import { productIndexTemplate } from "../../../templates/vanilla.ts";
+import { productIndexTemplate } from "../../../templates/ecommerce.ts";
 import type { Product } from "../../../types.ts";
 
 export async function onRequest({ request: { url } }: { request: Request }) {

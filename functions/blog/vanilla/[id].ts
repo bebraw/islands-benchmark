@@ -1,4 +1,4 @@
-import { postTemplateWithComments } from "../../../templates/vanilla.ts";
+import { postTemplateWithComments } from "../../../templates/blog.ts";
 import { getComments } from "../../../utils.ts";
 import type { Post } from "../../../types.ts";
 

@@ -1,4 +1,4 @@
-import { productsTemplate } from "../../../templates/vanilla.ts";
+import { productsTemplate } from "../../../templates/ecommerce.ts";
 import type { Product } from "../../../types.ts";
 
 const products: Product[] = [

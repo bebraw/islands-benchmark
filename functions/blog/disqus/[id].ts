@@ -1,4 +1,4 @@
-import { postTemplateWithDisqus } from "../../../templates/vanilla.ts";
+import { postTemplateWithDisqus } from "../../../templates/blog.ts";
 import type { Post } from "../../../types.ts";
 
 export async function onRequest({

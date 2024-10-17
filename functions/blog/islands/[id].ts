@@ -1,4 +1,4 @@
-import { postTemplateWithCommentsIsland } from "../../../templates/vanilla.ts";
+import { postTemplateWithCommentsIsland } from "../../../templates/blog.ts";
 import type { Post } from "../../../types.ts";
 
 export async function onRequest({

@@ -1,4 +1,4 @@
-import { commentsSection } from "../../../templates/vanilla.ts";
+import { commentsSection } from "../../../templates/blog.ts";
 import { getComments } from "../../../utils.ts";
 import type { Post } from "../../../types.ts";
 

@@ -1,4 +1,4 @@
-import { postIndexTemplate } from "../../../templates/vanilla.ts";
+import { postIndexTemplate } from "../../../templates/blog.ts";
 import type { Post } from "../../../types.ts";
 
 export async function onRequest({ request: { url } }: { request: Request }) {
