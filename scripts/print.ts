@@ -6,6 +6,7 @@ import { printCommentsTable } from "../tests/print-comments-table.ts";
 import { printEcommerceBoxPlot } from "../tests/print-ecommerce-box-plot.ts";
 import { printEcommerceSizes } from "../tests/print-ecommerce-sizes.ts";
 import { printEcommerceTable } from "../tests/print-ecommerce-table.ts";
+import { printSocialTable } from "../tests/print-social-table.ts";
 
 const target = process.argv.at(-1);
 
@@ -30,6 +31,9 @@ switch (target) {
     break;
   case "ecommerce-table":
     printEcommerceTable();
+    break;
+  case "social-table":
+    printSocialTable();
     break;
   default:
     console.log("No matching target was found");

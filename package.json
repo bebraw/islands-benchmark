@@ -21,6 +21,8 @@
     "print:ecommerce-sizes": "npm run print -- ecommerce-sizes",
     "print:ecommerce-desktop-table": "FORM_FACTOR=desktop npm run print -- ecommerce-table",
     "print:ecommerce-mobile-table": "FORM_FACTOR=mobile npm run print -- ecommerce-table",
+    "print:social-desktop-table": "FORM_FACTOR=desktop npm run print -- social-table",
+    "print:social-mobile-table": "FORM_FACTOR=mobile npm run print -- social-table",
     "print": "deno run -A ./scripts/print.ts",
     "lighthouse:blog:desktop": "FORM_FACTOR=desktop playwright test tests/blog.spec.ts",
     "lighthouse:blog:mobile": "FORM_FACTOR=mobile playwright test tests/blog.spec.ts",
