@@ -1,22 +1,19 @@
-import { articleListTemplate } from "../../../templates/content.ts";
-import { range } from "../../../math.ts";
+import { adTemplate } from "../../../templates/social.ts";
 import { loremIpsum } from "../../../content.ts";
-import type { Article } from "../../../types.ts";
+import type { Ad } from "../../../types.ts";
 
-const seed = 0;
-const mostReadArticles: Article[] = range(10).map((i) => ({
-  id: i.toString(),
-  category: loremIpsum(seed + i, 20),
-  title: loremIpsum(seed + 10 + i, 20),
-  slug: loremIpsum(seed + 20 + i, 20),
-}));
+const ad: Ad = {
+  id: "test-ad",
+  title: loremIpsum(0, 10),
+  url: loremIpsum(10, 10),
+};
 
 export async function onRequest({ request: { url } }: { request: Request }) {
   const { searchParams } = new URL(url);
   const format = searchParams.get("format");
 
   if (format === "html") {
-    return new Response(articleListTemplate(mostReadArticles), {
+    return new Response(adTemplate(ad), {
       status: 200,
       headers: {
         "content-type": "text/html; charset=utf-8",
@@ -27,7 +24,7 @@ export async function onRequest({ request: { url } }: { request: Request }) {
   }
 
   // Default to JSON
-  return new Response(JSON.stringify(mostReadArticles, null, 2), {
+  return new Response(JSON.stringify(ad, null, 2), {
     status: 200,
     headers: {
       "content-type": "application/json",

@@ -1,14 +1,13 @@
-import { articleListTemplate } from "../../../templates/content.ts";
+import { userListTemplate } from "../../../templates/social.ts";
 import { range } from "../../../math.ts";
 import { loremIpsum } from "../../../content.ts";
-import type { Article } from "../../../types.ts";
+import type { User } from "../../../types.ts";
 
-const seed = 0;
-const mostReadArticles: Article[] = range(10).map((i) => ({
+const seed = 200;
+const users: User[] = range(10).map((i) => ({
   id: i.toString(),
-  category: loremIpsum(seed + i, 20),
-  title: loremIpsum(seed + 10 + i, 20),
-  slug: loremIpsum(seed + 20 + i, 20),
+  name: loremIpsum(seed + 10 + i, 3),
+  slug: loremIpsum(seed + 20 + i, 3),
 }));
 
 export async function onRequest({ request: { url } }: { request: Request }) {
@@ -16,7 +15,7 @@ export async function onRequest({ request: { url } }: { request: Request }) {
   const format = searchParams.get("format");
 
   if (format === "html") {
-    return new Response(articleListTemplate(mostReadArticles), {
+    return new Response(userListTemplate(users), {
       status: 200,
       headers: {
         "content-type": "text/html; charset=utf-8",
@@ -27,7 +26,7 @@ export async function onRequest({ request: { url } }: { request: Request }) {
   }
 
   // Default to JSON
-  return new Response(JSON.stringify(mostReadArticles, null, 2), {
+  return new Response(JSON.stringify(users, null, 2), {
     status: 200,
     headers: {
       "content-type": "application/json",
