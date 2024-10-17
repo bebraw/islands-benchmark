@@ -16,7 +16,7 @@ function printContentTable() {
       prefix: "cf-ssr-",
     },
   ];
-  const titles = ["Variant", "FCP", "LCP", "TBP", "INP", "Bytes transferred"];
+  const titles = ["Variant", "FCP", "LCP", "TBP", "Bytes transferred"];
   const fieldGetters: ((o: Record<string, unknown>) => string)[] = [
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].firstContentfulPaint,
@@ -24,8 +24,6 @@ function printContentTable() {
     (o) => o.metrics?.details.items[0].largestContentfulPaint,
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].totalBlockingTime,
-    // @ts-expect-error This is fine for now
-    (o) => o.metrics?.details.items[0].interactive,
     // @ts-expect-error This is fine for now
     (o) => o.diagnostics?.details.items[0].totalByteWeight,
   ];
