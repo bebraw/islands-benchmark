@@ -1,4 +1,4 @@
-import { average } from "./math.ts";
+import { average } from "../math.ts";
 import { readAuditDiagnostics } from "./read-audits.ts";
 
 function printEcommerceSizes() {

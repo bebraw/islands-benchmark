@@ -6,7 +6,7 @@ import puppeteer, { type Page } from "puppeteer";
 import { startFlow } from "lighthouse";
 import desktopConfig from "lighthouse/core/config/lr-desktop-config.js";
 import mobileConfig from "lighthouse/core/config/lr-mobile-config.js";
-import { range } from "./math.ts";
+import { range } from "../math.ts";
 import { AMOUNT_OF_RUNS } from "./config.ts";
 
 type TestType = { name: string; mode: "timespan" | "navigation" };

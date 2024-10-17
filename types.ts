@@ -1,3 +1,10 @@
+export type Article = {
+  id: string;
+  category: string;
+  title: string;
+  slug: string;
+};
+
 export type Comment = {
   id: string;
   content: string;

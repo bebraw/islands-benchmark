@@ -1,5 +1,5 @@
 import { readAudits } from "./read-audits.ts";
-import { range } from "./math.ts";
+import { range } from "../math.ts";
 
 function printCSV(
   amountOfRuns: number,

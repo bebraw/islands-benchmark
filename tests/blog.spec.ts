@@ -4,7 +4,7 @@ import { playAudit } from "playwright-lighthouse";
 import playwright from "playwright";
 import desktopConfig from "lighthouse/core/config/lr-desktop-config.js";
 import mobileConfig from "lighthouse/core/config/lr-mobile-config.js";
-import { range } from "./math.ts";
+import { range } from "../math.ts";
 import { AMOUNT_OF_RUNS } from "./config.ts";
 
 const FORM_FACTOR = process.env.FORM_FACTOR;
