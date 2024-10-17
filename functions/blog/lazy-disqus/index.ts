@@ -1,13 +1,13 @@
-import { postIndexTemplate } from "../../templates/vanilla.ts";
-import type { Post } from "../../types.ts";
+import { postIndexTemplate } from "../../../templates/vanilla.ts";
+import type { Post } from "../../../types.ts";
 
 export async function onRequest({ request: { url } }: { request: Request }) {
-  const res = await fetch(`${new URL(url).origin}/api/posts`);
+  const res = await fetch(`${new URL(url).origin}/blog/api/posts`);
   const posts: Post[] = await res.json();
 
   return new Response(
     postIndexTemplate({
-      base: "/disqus/",
+      base: "/blog/lazy-disqus/",
       title: "Posts",
       posts,
     }),

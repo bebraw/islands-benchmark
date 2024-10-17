@@ -11,7 +11,7 @@ To run the edge server locally, do the following:
 2. `npx playwright install` to install Playwright browsers
 3. `npm start` to run the server
 
-After that you should be able to access `localhost:3000` and the `/api/posts` path behind it. See the directory `/functions` to understand which endpoints are available.
+After that you should be able to access `localhost:3000` and the paths behind it. See the directory `/functions` to understand which endpoints are available.
 
 ## TypeScript
 

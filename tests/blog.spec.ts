@@ -24,7 +24,7 @@ const testPrefix = "cf";
 const amountOfRuns = AMOUNT_OF_RUNS;
 const testTypes = ["vanilla", "disqus", "lazy-disqus", "islands"];
 
-testSuites(testPrefix, "https://comments-benchmark.pages.dev", testTypes);
+testSuites(testPrefix, "https://comments-benchmark.pages.dev/blog", testTypes);
 
 // The idea is to run similar test cases at the same time to avoid
 // weirdness related to connectivity as connection speed may vary.

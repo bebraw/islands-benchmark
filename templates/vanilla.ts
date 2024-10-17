@@ -47,7 +47,7 @@ function productIndexTemplateWithIsland({
       window.history.pushState({}, '', url);
 
       // Fetch products
-      const products = await (await fetch('/api/get-products?format=html&search=' + search)).text();
+      const products = await (await fetch('/ecommerce/api/get-products?format=html&search=' + search)).text();
 
       // Update HTML
       document.getElementById('products').innerHTML = products;
@@ -125,7 +125,7 @@ function postTemplateWithCommentsIsland({
     content: `${content}<div>
     <script>
     async function fetchComments() {
-      const comments = await (await fetch('/api/get-comments?id=${id}')).text();
+      const comments = await (await fetch('/blog/api/get-comments?id=${id}')).text();
 
       document.getElementById('comments').innerHTML = comments;
     }
@@ -146,7 +146,7 @@ function commentsSection({
   return `<section>
     <h2>Comments</h2>
     <ul>${comments.map(({ content }) => `<li><div>${sanitizeHTML(content)}</div></li>`).join("")}</ul>
-    <form action="/api/comment" method="post">
+    <form action="/blog/api/comment" method="post">
       <label for="new-comment">Leave a comment</label>
       <input type="hidden" name="id" value="${id}" />
       <textarea id="new-comment" name="comment" rows="4" cols="40"></textarea>

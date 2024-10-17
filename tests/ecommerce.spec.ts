@@ -23,14 +23,14 @@ async function main() {
   const testTypes: TestType[] = [
     // Because of Lighthouse and differing logic of ssr and islands implemenations,
     // different test modes have to be used to capture navigation.
-    { name: "ecommerce-ssr", mode: "navigation" },
-    { name: "ecommerce-islands", mode: "timespan" },
+    { name: "ssr", mode: "navigation" },
+    { name: "islands", mode: "timespan" },
   ];
 
   runTests(
     amountOfRuns,
     testPrefix,
-    "https://comments-benchmark.pages.dev",
+    "https://comments-benchmark.pages.dev/ecommerce",
     testTypes,
   );
 }

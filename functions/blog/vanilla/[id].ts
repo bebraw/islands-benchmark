@@ -1,6 +1,6 @@
-import { postTemplateWithComments } from "../../templates/vanilla.ts";
-import { getComments } from "../../utils.ts";
-import type { Post } from "../../types.ts";
+import { postTemplateWithComments } from "../../../templates/vanilla.ts";
+import { getComments } from "../../../utils.ts";
+import type { Post } from "../../../types.ts";
 
 export async function onRequest({
   env,
@@ -11,7 +11,7 @@ export async function onRequest({
   params: { id: string };
   request: Request;
 }) {
-  const res = await fetch(`${new URL(url).origin}/api/posts`);
+  const res = await fetch(`${new URL(url).origin}/blog/api/posts`);
   const posts: Post[] = await res.json();
   const foundPost = posts.find((p) => p.id === id);
 
@@ -26,7 +26,7 @@ export async function onRequest({
     postTemplateWithComments({
       ...foundPost,
       comments: await getComments(env.COMMENTS, id),
-      base: "/vanilla/",
+      base: "/blog/vanilla/",
     }),
     {
       status: 200,

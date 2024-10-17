@@ -1,20 +1,22 @@
-import { postTemplateWithLazyDisqus } from "../../templates/vanilla.ts";
-import type { Post } from "../../types.ts";
+import { commentsSection } from "../../../templates/vanilla.ts";
+import { getComments } from "../../../utils.ts";
+import type { Post } from "../../../types.ts";
 
 export async function onRequest({
   env,
-  params: { id },
   request: { url },
 }: {
   env: { COMMENTS: KVNamespace };
-  params: { id: string };
   request: Request;
 }) {
-  const res = await fetch(`${new URL(url).origin}/api/posts`);
+  const { searchParams } = new URL(url);
+  const id = searchParams.get("id");
+
+  const res = await fetch(`${new URL(url).origin}/blog/api/posts`);
   const posts: Post[] = await res.json();
   const foundPost = posts.find((p) => p.id === id);
 
-  if (!foundPost) {
+  if (!foundPost || id === null) {
     return new Response(`{ "error": "No matching post was found" }`, {
       status: 500,
       headers: { "content-type": "application/json" },
@@ -22,9 +24,9 @@ export async function onRequest({
   }
 
   return new Response(
-    postTemplateWithLazyDisqus({
-      ...foundPost,
-      base: "/lazy-disqus/",
+    commentsSection({
+      id,
+      comments: await getComments(env.COMMENTS, id),
     }),
     {
       status: 200,

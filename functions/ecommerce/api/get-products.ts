@@ -1,5 +1,5 @@
-import { productsTemplate } from "../../templates/vanilla.ts";
-import type { Product } from "../../types.ts";
+import { productsTemplate } from "../../../templates/vanilla.ts";
+import type { Product } from "../../../types.ts";
 
 const products: Product[] = [
   {

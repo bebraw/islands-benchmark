@@ -1,4 +1,4 @@
-import { getPosts } from "../../content";
+import { getPosts } from "../../../content";
 
 export function onRequest() {
   // It seems this can be fairly heavy operation. In a real environment,

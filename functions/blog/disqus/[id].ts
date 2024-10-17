@@ -1,18 +1,16 @@
-import { commentsSection } from "../../templates/vanilla.ts";
-import { getComments } from "../../utils.ts";
-import type { Post } from "../../types.ts";
+import { postTemplateWithDisqus } from "../../../templates/vanilla.ts";
+import type { Post } from "../../../types.ts";
 
 export async function onRequest({
   env,
+  params: { id },
   request: { url },
 }: {
   env: { COMMENTS: KVNamespace };
+  params: { id: string };
   request: Request;
 }) {
-  const { searchParams } = new URL(url);
-  const id = searchParams.get("id");
-
-  const res = await fetch(`${new URL(url).origin}/api/posts`);
+  const res = await fetch(`${new URL(url).origin}/blog/api/posts`);
   const posts: Post[] = await res.json();
   const foundPost = posts.find((p) => p.id === id);
 
@@ -24,9 +22,9 @@ export async function onRequest({
   }
 
   return new Response(
-    commentsSection({
-      id,
-      comments: await getComments(env.COMMENTS, id),
+    postTemplateWithDisqus({
+      ...foundPost,
+      base: "/blog/disqus/",
     }),
     {
       status: 200,

@@ -1,5 +1,5 @@
-import { postTemplateWithDisqus } from "../../templates/vanilla.ts";
-import type { Post } from "../../types.ts";
+import { postTemplateWithLazyDisqus } from "../../../templates/vanilla.ts";
+import type { Post } from "../../../types.ts";
 
 export async function onRequest({
   env,
@@ -10,7 +10,7 @@ export async function onRequest({
   params: { id: string };
   request: Request;
 }) {
-  const res = await fetch(`${new URL(url).origin}/api/posts`);
+  const res = await fetch(`${new URL(url).origin}/blog/api/posts`);
   const posts: Post[] = await res.json();
   const foundPost = posts.find((p) => p.id === id);
 
@@ -22,9 +22,9 @@ export async function onRequest({
   }
 
   return new Response(
-    postTemplateWithDisqus({
+    postTemplateWithLazyDisqus({
       ...foundPost,
-      base: "/disqus/",
+      base: "/blog/lazy-disqus/",
     }),
     {
       status: 200,

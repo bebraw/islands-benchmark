@@ -1,5 +1,5 @@
-import { postTemplateWithCommentsIsland } from "../../templates/vanilla.ts";
-import type { Post } from "../../types.ts";
+import { postTemplateWithCommentsIsland } from "../../../templates/vanilla.ts";
+import type { Post } from "../../../types.ts";
 
 export async function onRequest({
   env,
@@ -10,7 +10,7 @@ export async function onRequest({
   params: { id: string };
   request: Request;
 }) {
-  const res = await fetch(`${new URL(url).origin}/api/posts`);
+  const res = await fetch(`${new URL(url).origin}/blog/api/posts`);
   const posts: Post[] = await res.json();
   const foundPost = posts.find((p) => p.id === id);
 
@@ -24,7 +24,7 @@ export async function onRequest({
   return new Response(
     postTemplateWithCommentsIsland({
       ...foundPost,
-      base: "/islands/",
+      base: "/blog/islands/",
     }),
     {
       status: 200,
