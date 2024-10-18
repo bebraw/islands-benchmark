@@ -91,28 +91,31 @@ function socialTemplateWithIslands({
 </div>
 <footer>Footer goes here</footer>
 <script defer>
-window.onload = async (event) => {
-  // TODO: As an optimization, the code below could be parallelized with Promise.all
-  // Fetch the top articles and update the DOM
-  const topArticles = await (await fetch('/social/api/get-top-articles?format=html')).text();
-  document.getElementById('topArticles').innerHTML = topArticles;
-
-  // Fetch the ad and update the DOM
-  const ad = await (await fetch('/social/api/get-ad?format=html')).text();
-  document.getElementById('ad').innerHTML = ad;
-
-  // Fetch the content feed and update the DOM
-  const contentFeed = await (await fetch('/social/api/get-content-feed?format=html')).text();
+requestIdleCallback(async (event) => {
+  // It would be possible to prioritize loading of the content feed here for example
+  const [adRes, topArticlesRes, contentFeedRes, whoToFollowRes, topTrendsRes] =
+    await Promise.all([
+      fetch('/social/api/get-ad?format=html'),
+      fetch('/social/api/get-top-articles?format=html'),
+      fetch('/social/api/get-content-feed?format=html'),
+      fetch('/social/api/get-who-to-follow?format=html'),
+      fetch('/social/api/get-top-trends?format=html'),
+    ]);
+  const contentFeed = await contentFeedRes.text();
   document.getElementById('contentFeed').innerHTML = contentFeed;
 
-  // Fetch who to follow and update the DOM
-  const whoToFollow = await (await fetch('/social/api/get-who-to-follow?format=html')).text();
+  const ad = await adRes.text();
+  document.getElementById('ad').innerHTML = ad;
+
+  const topArticles = await topArticlesRes.text();
+  document.getElementById('topArticles').innerHTML = topArticles;
+
+  const whoToFollow = await whoToFollowRes.text();
   document.getElementById('whoToFollow').innerHTML = whoToFollow;
 
-  // Fetch top trends and update the DOM
-  const topTrends = await (await fetch('/social/api/get-top-trends?format=html')).text();
+  const topTrends = await topTrendsRes.text();
   document.getElementById('topTrends').innerHTML = topTrends;
-}
+});
 </script>`,
   });
 }

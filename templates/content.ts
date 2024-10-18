@@ -64,16 +64,17 @@ function contentTemplateWithIslands({
   </section>
 </div>
 <script defer>
-window.onload = async (event) => {
-  // TODO: As an optimization, the code below could be parallelized with Promise.all
-  // Fetch the most read articles and update the DOM
-  const mostReadArticles = await (await fetch('/content/api/get-most-read?format=html')).text();
+requestIdleCallback(async (event) => {
+  const [latestRes, mostReadRes] = await Promise.all([
+    fetch('/content/api/get-latest?format=html'),
+    fetch('/content/api/get-most-read?format=html'),
+  ]);
+  const mostReadArticles = await mostReadRes.text();
   document.getElementById('mostReadArticles').innerHTML = mostReadArticles;
 
-  // Fetch the latest articles and update the DOM
-  const latestArticles = await (await fetch('/content/api/get-latest?format=html')).text();
+  const latestArticles = await latestRes.text();
   document.getElementById('latestArticles').innerHTML = latestArticles;
-}
+});
 </script>`,
   });
 }
