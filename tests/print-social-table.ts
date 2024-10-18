@@ -9,11 +9,11 @@ function printSocialTable() {
   const variants = [
     {
       name: "SSR",
-      prefix: "cf-islands-",
+      prefix: "cf-ssr-",
     },
     {
       name: "SSR with islands",
-      prefix: "cf-ssr-",
+      prefix: "cf-islands-",
     },
   ];
   const titles = ["Variant", "FCP", "LCP", "CLS", "TBT", "Bytes transferred"];
