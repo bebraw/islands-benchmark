@@ -90,7 +90,7 @@ function socialTemplateWithIslands({
   </section>
 </div>
 <footer>Footer goes here</footer>
-<script>
+<script defer>
 window.onload = async (event) => {
   // TODO: As an optimization, the code below could be parallelized with Promise.all
   // Fetch the top articles and update the DOM

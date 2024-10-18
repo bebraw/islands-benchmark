@@ -38,7 +38,7 @@ function productIndexTemplateWithIsland({
   return baseTemplate({
     base,
     title,
-    content: `<script>
+    content: `<script defer>
     async function fetchProducts(event) {
       const search = event.target.elements.search.value;
 

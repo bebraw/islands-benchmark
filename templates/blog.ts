@@ -54,7 +54,7 @@ function postTemplateWithCommentsIsland({
     base,
     title,
     content: `${content}<div>
-    <script>
+    <script defer>
     async function fetchComments() {
       const comments = await (await fetch('/blog/api/get-comments?id=${id}')).text();
 
@@ -149,7 +149,7 @@ function lazyDisqusScript() {
 
 function disqusScript() {
   return `<div id="disqus_thread"></div>
-  <script>
+  <script defer>
       /**
       *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
       *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */

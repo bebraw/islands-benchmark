@@ -63,7 +63,7 @@ function contentTemplateWithIslands({
     </div>
   </section>
 </div>
-<script>
+<script defer>
 window.onload = async (event) => {
   // TODO: As an optimization, the code below could be parallelized with Promise.all
   // Fetch the most read articles and update the DOM
