@@ -93,28 +93,18 @@ function socialTemplateWithIslands({
 <script defer>
 requestIdleCallback(async (event) => {
   // It would be possible to prioritize loading of the content feed here for example
-  const [adRes, topArticlesRes, contentFeedRes, whoToFollowRes, topTrendsRes] =
-    await Promise.all([
-      fetch('/social/api/get-ad?format=html'),
-      fetch('/social/api/get-top-articles?format=html'),
-      fetch('/social/api/get-content-feed?format=html'),
-      fetch('/social/api/get-who-to-follow?format=html'),
-      fetch('/social/api/get-top-trends?format=html'),
-    ]);
-  const contentFeed = await contentFeedRes.text();
-  document.getElementById('contentFeed').innerHTML = contentFeed;
+  await Promise.all([
+    load('/social/api/get-ad?format=html', 'ad'),
+    load('/social/api/get-top-articles?format=html', 'topArticles'),
+    load('/social/api/get-content-feed?format=html', 'contentFeed'),
+    load('/social/api/get-who-to-follow?format=html', 'whoToFollow'),
+    load('/social/api/get-top-trends?format=html', 'topTrends'),
+  ]);
 
-  const ad = await adRes.text();
-  document.getElementById('ad').innerHTML = ad;
-
-  const topArticles = await topArticlesRes.text();
-  document.getElementById('topArticles').innerHTML = topArticles;
-
-  const whoToFollow = await whoToFollowRes.text();
-  document.getElementById('whoToFollow').innerHTML = whoToFollow;
-
-  const topTrends = await topTrendsRes.text();
-  document.getElementById('topTrends').innerHTML = topTrends;
+  async function load(url, id) {
+    const res = await fetch(url);
+    document.getElementById(id).innerHTML = await res.text();
+  }
 });
 </script>`,
   });

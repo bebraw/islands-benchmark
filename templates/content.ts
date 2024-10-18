@@ -65,15 +65,15 @@ function contentTemplateWithIslands({
 </div>
 <script defer>
 requestIdleCallback(async (event) => {
-  const [latestRes, mostReadRes] = await Promise.all([
-    fetch('/content/api/get-latest?format=html'),
-    fetch('/content/api/get-most-read?format=html'),
+  await Promise.all([
+    load('/content/api/get-latest?format=html', 'latestArticles'),
+    load('/content/api/get-most-read?format=html', 'mostReadArticles'),
   ]);
-  const mostReadArticles = await mostReadRes.text();
-  document.getElementById('mostReadArticles').innerHTML = mostReadArticles;
 
-  const latestArticles = await latestRes.text();
-  document.getElementById('latestArticles').innerHTML = latestArticles;
+  async function load(url, id) {
+    const res = await fetch(url);
+    document.getElementById(id).innerHTML = await res.text();
+  }
 });
 </script>`,
   });
