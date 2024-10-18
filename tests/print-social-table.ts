@@ -16,12 +16,14 @@ function printSocialTable() {
       prefix: "cf-ssr-",
     },
   ];
-  const titles = ["Variant", "FCP", "LCP", "TBT", "Bytes transferred"];
+  const titles = ["Variant", "FCP", "LCP", "CLS", "TBT", "Bytes transferred"];
   const fieldGetters: ((o: Record<string, unknown>) => string)[] = [
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].firstContentfulPaint,
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].largestContentfulPaint,
+    // @ts-expect-error This is fine for now
+    (o) => o.metrics?.details.items[0].cumulativeLayoutShift,
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].totalBlockingTime,
     // @ts-expect-error This is fine for now
@@ -58,6 +60,14 @@ function printSocialTable() {
   console.log();
   console.log("Rows:");
   console.log(rows);
+}
+
+// TODO: Apply this on the resultint CLS
+function toFixed(num: number, fixed: number) {
+  const re = new RegExp("^-?\\d+(?:.\\d{0," + (fixed || -1) + "})?");
+  const ret = num.toString().match(re);
+
+  return ret && ret[0];
 }
 
 export { printSocialTable };
