@@ -16,7 +16,7 @@ function printEcommerceTable() {
       prefix: "islands-cf-",
     },
   ];
-  const titles = ["Variant", "FCP", "LCP", "TBP", "INP", "Bytes transferred"];
+  const titles = ["Variant", "FCP", "LCP", "TBT", "INP", "Bytes transferred"];
   const fieldGetters: ((o: Record<string, unknown>) => string)[] = [
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].firstContentfulPaint,

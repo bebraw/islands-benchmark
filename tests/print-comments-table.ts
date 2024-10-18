@@ -24,7 +24,7 @@ function printCommentsTable() {
       prefix: "cf-islands-",
     },
   ];
-  const titles = ["Variant", "FCP", "LCP", "TBP", "Bytes transferred"];
+  const titles = ["Variant", "FCP", "LCP", "TBT", "Bytes transferred"];
   const fieldGetters: ((o: Record<string, unknown>) => string)[] = [
     // @ts-expect-error This is fine for now
     (o) => o.metrics.details.items[0].firstContentfulPaint,
