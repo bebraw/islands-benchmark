@@ -91,7 +91,7 @@ function socialTemplateWithIslands({
 </div>
 <footer>Footer goes here</footer>
 <script>
-document.addEventListener("DOMContentLoaded", async (event) => {
+window.onload = async (event) => {
   // TODO: As an optimization, the code below could be parallelized with Promise.all
   // Fetch the top articles and update the DOM
   const topArticles = await (await fetch('/social/api/get-top-articles?format=html')).text();
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   // Fetch top trends and update the DOM
   const topTrends = await (await fetch('/social/api/get-top-trends?format=html')).text();
   document.getElementById('topTrends').innerHTML = topTrends;
-});
+}
 </script>`,
   });
 }

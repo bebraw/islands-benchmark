@@ -64,7 +64,7 @@ function contentTemplateWithIslands({
   </section>
 </div>
 <script>
-document.addEventListener("DOMContentLoaded", async (event) => {
+window.onload = async (event) => {
   // TODO: As an optimization, the code below could be parallelized with Promise.all
   // Fetch the most read articles and update the DOM
   const mostReadArticles = await (await fetch('/content/api/get-most-read?format=html')).text();
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async (event) => {
   // Fetch the latest articles and update the DOM
   const latestArticles = await (await fetch('/content/api/get-latest?format=html')).text();
   document.getElementById('latestArticles').innerHTML = latestArticles;
-});
+}
 </script>`,
   });
 }
