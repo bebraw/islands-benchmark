@@ -18,7 +18,6 @@ const thresholds = {
   accessibility: 50,
   "best-practices": 50,
   seo: 50,
-  pwa: 10,
 };
 const testPrefix = "cf";
 const amountOfRuns = AMOUNT_OF_RUNS;
