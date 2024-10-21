@@ -6,9 +6,9 @@ import type { Article } from "../../../types.ts";
 const seed = 100;
 const latestArticles: Article[] = range(10).map((i) => ({
   id: i.toString(),
-  category: loremIpsum(seed + i, 20),
-  title: loremIpsum(seed + 10 + i, 20),
-  slug: loremIpsum(seed + 20 + i, 20),
+  category: loremIpsum(seed + i, 3),
+  title: loremIpsum(seed + 10 + i, 3),
+  slug: loremIpsum(seed + 20 + i, 3),
 }));
 
 export async function onRequest({ request: { url } }: { request: Request }) {
