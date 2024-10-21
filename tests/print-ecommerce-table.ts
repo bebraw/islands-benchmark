@@ -16,12 +16,22 @@ function printEcommerceTable() {
       prefix: "islands-cf-",
     },
   ];
-  const titles = ["Variant", "FCP", "LCP", "TBT", "INP", "Bytes transferred"];
+  const titles = [
+    "Variant",
+    "FCP",
+    "LCP",
+    "CLS",
+    "TBT",
+    "INP",
+    "Bytes transferred",
+  ];
   const fieldGetters: ((o: Record<string, unknown>) => string)[] = [
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].firstContentfulPaint,
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].largestContentfulPaint,
+    // @ts-expect-error This is fine for now
+    (o) => o.metrics?.details.items[0].cumulativeLayoutShift,
     // @ts-expect-error This is fine for now
     (o) => o.metrics?.details.items[0].totalBlockingTime,
     // @ts-expect-error This is fine for now
