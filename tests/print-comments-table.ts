@@ -24,7 +24,7 @@ function printCommentsTable() {
       prefix: "cf-islands-",
     },
   ];
-  const titles = ["Variant", "FCP", "LCP", "TBT", "Bytes transferred"];
+  const titles = ["Variant", "FCP", "LCP", "TBT", "INP", "Bytes transferred"];
   const fieldGetters: ((o: Record<string, unknown>) => string)[] = [
     // @ts-expect-error This is fine for now
     (o) => o.metrics.details.items[0].firstContentfulPaint,
@@ -32,6 +32,8 @@ function printCommentsTable() {
     (o) => o.metrics.details.items[0].largestContentfulPaint,
     // @ts-expect-error This is fine for now
     (o) => o.metrics.details.items[0].totalBlockingTime,
+    // @ts-expect-error This is fine for now
+    (o) => o.metrics?.details.items[0].interactive,
     // @ts-expect-error This is fine for now
     (o) => o.diagnostics?.details.items[0].totalByteWeight,
   ];
